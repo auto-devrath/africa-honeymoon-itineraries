@@ -69,6 +69,12 @@ function Hero({
             Compare routes
           </button>
         </div>
+        <div className="hero-stats" aria-label="Trip constraints">
+          <span>{tripBrief.budget}</span>
+          <span>{activeConcept.duration}</span>
+          <span>{activeConcept.safariDays} safari</span>
+          <span>{tripBrief.avios}</span>
+        </div>
       </div>
 
       <aside className="hero-card" aria-label="Active itinerary">
@@ -183,7 +189,7 @@ function Timeline({ concept }: { concept: ItineraryConcept }) {
 function TourCard({ tour }: { tour: Tour }) {
   return (
     <article className="tour-card">
-      <div>
+      <div className="tour-card-head">
         <p className="eyebrow">{tour.location}</p>
         <h3>{tour.name}</h3>
         <p>{tour.why}</p>
@@ -207,7 +213,7 @@ function TourCard({ tour }: { tour: Tour }) {
         </div>
       </dl>
       <a href={tour.book} target="_blank" rel="noreferrer">
-        Open {tour.source}
+        Check {tour.source}
       </a>
     </article>
   );
@@ -223,6 +229,11 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
           <p>{concept.summary}</p>
           <p>{concept.headlineDetail}</p>
           <RouteLine route={concept.route} />
+          <div className="priority-list" aria-label="Planning emphasis">
+            <span>{concept.culturalWonder}</span>
+            <span>{concept.naturalWonder}</span>
+            <span>{concept.safariBase}</span>
+          </div>
         </div>
         <Gallery concept={concept} />
       </section>
@@ -313,8 +324,9 @@ function ToursView() {
           <h2>Independent pieces to book around the itinerary.</h2>
         </div>
         <p>
-          These are not big package tours. They are modular experiences you can use to build the honeymoon yourselves:
-          Egyptologist days, food walks, desert guides, Falls experiences, and one compact safari layer.
+          These are modular experiences rather than one giant package: Egyptologist days, food walks,
+          dune and Falls specialists, and one compact safari layer. Review signals were refreshed from
+          public Tripadvisor/search-result data on 7 May 2026, with stronger operators surfaced first.
         </p>
       </section>
       {concepts.map((concept) => (
