@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import './App.css';
 import {
   concepts,
+  costResearch,
   logistics,
   sourceReport,
   tripBrief,
@@ -12,6 +13,7 @@ import {
 } from './data';
 
 const scoreKeys: ScoreKey[] = ['Budget', 'Ease', 'Culture', 'Nature', 'Romance'];
+type ViewId = 'concepts' | 'generator' | 'costing' | 'tours' | 'compare' | 'logistics';
 
 function formatCurrency(value: number) {
   return `NZ$${value.toLocaleString('en-NZ')}`;
@@ -24,13 +26,13 @@ function Hero({
 }: {
   activeConcept: ItineraryConcept;
   activeView: string;
-  setActiveView: (view: 'concepts' | 'tours' | 'compare' | 'logistics') => void;
+  setActiveView: (view: ViewId) => void;
 }) {
   return (
     <header
       className="hero"
       style={{
-        backgroundImage: `linear-gradient(105deg, rgba(5, 8, 11, 0.78), rgba(5, 8, 11, 0.42) 42%, rgba(5, 8, 11, 0.06)), url(${activeConcept.image})`,
+        backgroundImage: 'linear-gradient(105deg, rgba(5, 8, 11, 0.8), rgba(5, 8, 11, 0.4) 46%, rgba(5, 8, 11, 0.04)), url(./generated/africa-honeymoon-hero.png)',
       }}
     >
       <nav className="topbar" aria-label="Trip views">
@@ -41,6 +43,8 @@ function Hero({
         <div className="view-tabs">
           {[
             ['concepts', 'Plan'],
+            ['generator', 'Generator'],
+            ['costing', 'Costing'],
             ['tours', 'Tours'],
             ['compare', 'Compare'],
             ['logistics', 'Logistics'],
@@ -48,7 +52,7 @@ function Hero({
             <button
               key={id}
               className={activeView === id ? 'is-active' : ''}
-              onClick={() => setActiveView(id as 'concepts' | 'tours' | 'compare' | 'logistics')}
+              onClick={() => setActiveView(id as ViewId)}
               type="button"
             >
               {label}
@@ -62,11 +66,11 @@ function Hero({
         <h1>{tripBrief.title}</h1>
         <p className="hero-copy">{tripBrief.subtitle}</p>
         <div className="hero-actions">
-          <button type="button" onClick={() => setActiveView('tours')}>
-            Browse independent tours
+          <button type="button" onClick={() => setActiveView('generator')}>
+            Build honeymoon route
           </button>
-          <button type="button" className="ghost" onClick={() => setActiveView('compare')}>
-            Compare routes
+          <button type="button" className="ghost" onClick={() => setActiveView('costing')}>
+            See cost model
           </button>
         </div>
         <div className="hero-stats" aria-label="Trip constraints">
@@ -315,6 +319,143 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
   );
 }
 
+function CostingView() {
+  return (
+    <main className="content-grid top-content">
+      <section className="section-split research-intro">
+        <div className="section-heading">
+          <p className="eyebrow">Cost Intelligence</p>
+          <h2>Current planning bands, converted into NZD decisions.</h2>
+        </div>
+        <p>
+          These are not quotes. They are the useful public-price signals that should shape the
+          itinerary: where to spend, where to cap, and where points or memberships can actually
+          protect the honeymoon budget.
+        </p>
+      </section>
+      <section className="cost-research-grid">
+        {costResearch.map((item) => (
+          <article className="research-card" key={item.region}>
+            <span>{item.region}</span>
+            <h3>{item.anchor}</h3>
+            <strong>{item.nzd}</strong>
+            <p>{item.useInPlan}</p>
+            <small>{item.source}</small>
+          </article>
+        ))}
+      </section>
+    </main>
+  );
+}
+
+function ItineraryGenerator() {
+  const [pace, setPace] = useState<'calm' | 'balanced' | 'max'>('balanced');
+  const [budget, setBudget] = useState<'value' | 'target' | 'stretch'>('target');
+  const [safari, setSafari] = useState<'light' | 'classic'>('light');
+  const [style, setStyle] = useState<'culture' | 'nature' | 'iconic'>('nature');
+
+  const recommendation = useMemo(() => {
+    const ranked = concepts
+      .map((concept) => {
+        let score = 0;
+
+        if (budget === 'value') score += 13000 - concept.costMax;
+        if (budget === 'target') score += concept.costMax <= 10800 ? 2800 : 1200;
+        if (budget === 'stretch') score += concept.scores.Romance * 700;
+
+        if (pace === 'calm') score += concept.transit === 'Low' ? 3600 : concept.transit === 'Moderate' ? 1600 : -900;
+        if (pace === 'balanced') score += concept.transit === 'Moderate' ? 2600 : 1700;
+        if (pace === 'max') score += concept.scores.Culture * 420 + concept.scores.Nature * 420;
+
+        if (safari === 'light') score += concept.safariDays.includes('2-3') ? 2200 : 900;
+        if (safari === 'classic') score += concept.safariDays.includes('3-4') ? 2300 : 1200;
+
+        if (style === 'culture') score += concept.scores.Culture * 850;
+        if (style === 'nature') score += concept.scores.Nature * 850;
+        if (style === 'iconic') score += (concept.scores.Culture + concept.scores.Nature + concept.scores.Romance) * 430;
+
+        return { concept, score };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    return ranked[0].concept;
+  }, [budget, pace, safari, style]);
+
+  const planNotes = [
+    pace === 'calm'
+      ? 'Keep one real buffer day after the long-haul arrival and before the return flight.'
+      : pace === 'balanced'
+        ? 'Use one protected transit night, but let the route keep its sense of occasion.'
+        : 'Accept one harder flight bridge only if it unlocks a genuinely better wonder sequence.',
+    budget === 'value'
+      ? 'Use Avios on the ugliest long-haul cash fare, then keep lodges comfortable rather than ultra-luxury.'
+      : budget === 'target'
+        ? 'Spend on one signature hotel or experience, not a premium choice every night.'
+        : 'Put the stretch spend into flightseeing, private guiding, or one standout lodge.',
+    safari === 'light'
+      ? 'Treat safari as a highlight layer, not the whole identity of the honeymoon.'
+      : 'Use three nights as the cap: long enough for dawn drives, short enough to preserve culture and wonder.',
+  ];
+
+  return (
+    <main className="content-grid top-content">
+      <section className="generator-panel">
+        <div className="generator-controls">
+          <div className="section-heading">
+            <p className="eyebrow">Honeymoon Generator</p>
+            <h2>Shape the trip around how it should feel.</h2>
+          </div>
+          <label>
+            Pace
+            <select value={pace} onChange={(event) => setPace(event.target.value as typeof pace)}>
+              <option value="calm">Calm and polished</option>
+              <option value="balanced">Balanced</option>
+              <option value="max">Maximum wonder</option>
+            </select>
+          </label>
+          <label>
+            Budget posture
+            <select value={budget} onChange={(event) => setBudget(event.target.value as typeof budget)}>
+              <option value="value">Protect budget</option>
+              <option value="target">Hit NZ$10k-12k pp</option>
+              <option value="stretch">Allow one splurge</option>
+            </select>
+          </label>
+          <label>
+            Safari appetite
+            <select value={safari} onChange={(event) => setSafari(event.target.value as typeof safari)}>
+              <option value="light">Light safari layer</option>
+              <option value="classic">Classic 3-4 day safari</option>
+            </select>
+          </label>
+          <label>
+            Main pull
+            <select value={style} onChange={(event) => setStyle(event.target.value as typeof style)}>
+              <option value="nature">Natural wonders</option>
+              <option value="culture">Culture and history</option>
+              <option value="iconic">Iconic greatest-hits</option>
+            </select>
+          </label>
+        </div>
+        <article className="generated-route">
+          <img src={recommendation.image} alt="" />
+          <div>
+            <p className="eyebrow">Best Match</p>
+            <h2>{recommendation.title}</h2>
+            <strong>{recommendation.pairing} / {recommendation.costLabel}</strong>
+            <RouteLine route={recommendation.route} />
+            <ul className="plain-list">
+              {planNotes.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      </section>
+    </main>
+  );
+}
+
 function ToursView() {
   return (
     <main className="content-grid">
@@ -453,7 +594,7 @@ function LogisticsView() {
 }
 
 function App() {
-  const [activeView, setActiveView] = useState<'concepts' | 'tours' | 'compare' | 'logistics'>('concepts');
+  const [activeView, setActiveView] = useState<ViewId>('concepts');
   const [activeId, setActiveId] = useState<ConceptId>('namibia-victoria');
   const activeConcept = useMemo(
     () => concepts.find((concept) => concept.id === activeId) ?? concepts[0],
@@ -465,6 +606,8 @@ function App() {
       <Hero activeConcept={activeConcept} activeView={activeView} setActiveView={setActiveView} />
       {activeView === 'concepts' && <ConceptPicker activeId={activeId} setActiveId={setActiveId} />}
       {activeView === 'concepts' && <ConceptDetail concept={activeConcept} />}
+      {activeView === 'generator' && <ItineraryGenerator />}
+      {activeView === 'costing' && <CostingView />}
       {activeView === 'tours' && <ToursView />}
       {activeView === 'compare' && <CompareView />}
       {activeView === 'logistics' && <LogisticsView />}

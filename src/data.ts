@@ -93,8 +93,7 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'Use Egypt for depth and texture, Kenya for the once-in-a-lifetime wildlife note, and keep the whole trip from feeling like a packaged circuit.',
     mood: 'Monuments, candlelit Nile dinners, Mara dawn drives',
-    image:
-      'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1800&q=84',
+    image: './generated/route-egypt-kenya.png',
     gallery: egyptGallery,
     costLabel: 'NZ$9,200-10,400 pp',
     costMin: 9200,
@@ -254,8 +253,7 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'This is the cleanest choice if you want fewer museums, more awe, and a route that feels visually extraordinary every second day.',
     mood: 'Desert silence, flightseeing, waterfall mist, river sundowners',
-    image:
-      'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1800&q=84',
+    image: './generated/route-namibia-victoria.png',
     gallery: namibiaGallery,
     costLabel: 'NZ$9,000-10,800 pp',
     costMin: 9000,
@@ -404,8 +402,7 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'Choose this when you want the most iconic story and accept that it needs careful flight buffers to stay elegant.',
     mood: 'Ancient stone, rainforest spray, helicopter views, Zambezi sunsets',
-    image:
-      'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1800&q=84',
+    image: './generated/route-egypt-victoria.png',
     gallery: victoriaGallery,
     costLabel: 'NZ$10,900-12,000 pp',
     costMin: 10900,
@@ -583,6 +580,49 @@ export const logistics = [
 
 export const sourceReport = {
   label: 'Research-backed working plan',
-  path: 'Deep research report plus live Tripadvisor/public tour checks on 7 May 2026',
+  path: 'Deep research report plus live 2026 public pricing checks on 7 May 2026',
   completed: 'Updated 7 May 2026',
 };
+
+export const costResearch = [
+  {
+    region: 'Masai Mara short safari',
+    anchor: 'US$600-950 pp mid-range 3-day road safari; luxury/fly-in commonly starts around US$1,150-1,600+ pp.',
+    nzd: 'Approx NZ$1,000-2,700+ pp at ~1 USD = 1.68 NZD.',
+    useInPlan:
+      'Keep Kenya safari to three nights, choose road transfer for value or one fly-in upgrade if the rest of the trip is under budget.',
+    source: 'SafariBookings, MasaiMaraSafari.travel, Maasai Mara Safari Tours',
+  },
+  {
+    region: 'Namibia landscapes',
+    anchor: 'Self-drive lodge trips range widely: about US$160-320 pp/day budget, US$300-650 mid-range, US$700-1,800+ luxury.',
+    nzd: 'Approx NZ$270-1,090 pp/day for budget/mid-range, or NZ$1,175-3,020+ luxury.',
+    useInPlan:
+      'Use guided private transfers only for the harder desert/coast segments, then spend on one standout lodge instead of making every night premium.',
+    source: 'Namibia Adventures, Etosha National Park Namibia cost guide, SafariBookings',
+  },
+  {
+    region: 'Victoria Falls activities',
+    anchor: '12-15 minute helicopter flights list around US$173-252; Chobe day trips commonly sit around US$150-350.',
+    nzd: 'Approx NZ$290-425 helicopter and NZ$250-590 Chobe day trip, before taxes/fees/tips.',
+    useInPlan:
+      'Treat Falls as an experience budget: choose helicopter plus Chobe, or sunset cruise plus guided Falls walk if you want a softer spend.',
+    source: 'Visit Livingstone, VictoriaFalls-Guide, Visit Victoria Falls activity packages',
+  },
+  {
+    region: 'Egypt culture block',
+    anchor: 'Private Cairo/Luxor packages vary widely; efficient 5-9 day guided blocks commonly range from low four figures to luxury tour pricing.',
+    nzd: 'Working model NZ$3,200-5,500 pp for private guiding, quality hotels, domestic movement, entries, and nicer meals.',
+    useInPlan:
+      'Spend on private Egyptologist days in Cairo and Luxor, then keep evenings independent with food walks and rooftop dinners.',
+    source: 'Discovery Tours Egypt, private Egypt tour operators, live public tour listings',
+  },
+  {
+    region: 'Currency working rate',
+    anchor: 'USD/NZD public converters sat around 1.67-1.68 on 7 May 2026, with normal card and FX margin variation.',
+    nzd: 'Use 1.68 as planning math, then add 5-8% buffer for card spreads and rate movement.',
+    useInPlan:
+      'Show costs as decision ranges, not fixed quotes, and preserve NZ$800-1,200 pp contingency inside each concept.',
+    source: 'TradingView, Xe, Investing.com, Wise, Revolut',
+  },
+];
