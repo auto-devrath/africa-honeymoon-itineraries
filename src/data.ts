@@ -2,6 +2,18 @@ export type ConceptId = 'egypt-kenya' | 'namibia-victoria' | 'egypt-victoria';
 
 export type ScoreKey = 'Budget' | 'Ease' | 'Culture' | 'Nature' | 'Romance';
 
+export type Tour = {
+  name: string;
+  location: string;
+  style: string;
+  signal: string;
+  price: string;
+  duration: string;
+  why: string;
+  book: string;
+  source: string;
+};
+
 export type ItineraryConcept = {
   id: ConceptId;
   label: string;
@@ -9,6 +21,7 @@ export type ItineraryConcept = {
   pairing: string;
   summary: string;
   image: string;
+  gallery: string[];
   costLabel: string;
   costMin: number;
   costMax: number;
@@ -21,6 +34,8 @@ export type ItineraryConcept = {
   route: string[];
   assetFocus: string[];
   idealFor: string;
+  mood: string;
+  headlineDetail: string;
   budget: Array<{
     label: string;
     amount: number;
@@ -31,106 +46,173 @@ export type ItineraryConcept = {
     title: string;
     base: string;
     detail: string;
+    focus: string;
   }>;
   strengths: string[];
   watchouts: string[];
+  tours: Tour[];
   scores: Record<ScoreKey, number>;
 };
 
 export const tripBrief = {
-  title: 'October Africa Honeymoon',
+  title: 'Africa Honeymoon Studio',
   subtitle:
-    'A 14-17 day shortlist from London focused on culture, natural wonders, and a tightly capped 3-4 day safari.',
+    'A polished October shortlist from London with culture, natural wonders, independent bookable tours, and safari kept to 3-4 days.',
   budget: 'NZ$10k-12k pp',
   origin: 'London',
   timing: 'October',
   avios: '200,000 Avios',
 };
 
+const egyptGallery = [
+  'https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1553913861-c0fddf2619ee?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1602693680203-a617da61c07b?auto=format&fit=crop&w=1200&q=82',
+];
+
+const namibiaGallery = [
+  'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1200&q=82',
+];
+
+const victoriaGallery = [
+  'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1504432842672-1a79f78e4084?auto=format&fit=crop&w=1200&q=82',
+  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=82',
+];
+
 export const concepts: ItineraryConcept[] = [
   {
     id: 'egypt-kenya',
-    label: 'Concept 1',
+    label: '01',
     title: 'Antiquity & Savannah',
     pairing: 'Egypt + Kenya',
     summary:
-      'The most classic blend: serious Egyptian history first, then a short luxury Masai Mara finish.',
+      'The most emotionally complete route: a private Egyptologist-led Cairo and Luxor week, then a tightly edited Masai Mara safari finale.',
+    headlineDetail:
+      'Use Egypt for depth and texture, Kenya for the once-in-a-lifetime wildlife note, and keep the whole trip from feeling like a packaged circuit.',
+    mood: 'Monuments, candlelit Nile dinners, Mara dawn drives',
     image:
-      'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1600&q=80',
-    costLabel: 'NZ$9,178-10,000 pp',
-    costMin: 9178,
-    costMax: 10000,
+      'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1800&q=84',
+    gallery: egyptGallery,
+    costLabel: 'NZ$9,200-10,400 pp',
+    costMin: 9200,
+    costMax: 10400,
     duration: '14-16 days',
     transit: 'Moderate',
     safariDays: '3-4 days',
-    culturalWonder: 'Pyramids of Giza, Karnak, Luxor',
-    naturalWonder: 'Great Rift Valley',
-    safariBase: 'Fairmont Mara Safari Club, Masai Mara',
+    culturalWonder: 'Giza, Saqqara, Karnak, Luxor West Bank',
+    naturalWonder: 'Great Rift Valley and Masai Mara plains',
+    safariBase: 'Masai Mara conservancy or reserve lodge',
     route: ['London', 'Cairo', 'Luxor', 'Nairobi', 'Masai Mara', 'London'],
     assetFocus: [
-      'Avios on London-Cairo and Nairobi-London',
-      'Accor Plus at Fairmont Mara',
-      'Kindred only if Cairo or Nairobi inventory is strong',
+      'Avios for London-Cairo and Nairobi-London',
+      'Accor Plus for Nairobi or Fairmont Mara if rates work',
+      'Kindred only for Cairo/Nairobi city nights',
     ],
     idealFor:
-      'Best when the honeymoon should feel culturally weighty, romantic, and recognisably East African.',
+      'Best if you want Jordan-like history, a proper honeymoon arc, and only a short safari hit.',
     budget: [
       {
-        label: 'International and intra-Africa flights',
-        amount: 1000,
-        detail: 'Avios absorbs the heavy UK-Africa legs; cash mainly covers Cairo-Nairobi.',
+        label: 'Flights and positioning',
+        amount: 1250,
+        detail: 'Avios reduces the UK-Africa cash hit; Cairo-Nairobi is the key paid bridge.',
       },
       {
-        label: 'Egypt culture week',
-        amount: 3500,
-        detail: 'Private Egyptologist, Cairo/Luxor lodging, dining, and domestic flights.',
+        label: 'Egypt private culture week',
+        amount: 3650,
+        detail: 'Private guiding, domestic flights or train, high-comfort hotels, and nicer meals.',
       },
       {
-        label: 'Kenya safari',
-        amount: 4178,
-        detail: 'Fairmont Mara package and conservancy fees, before optional ballooning.',
+        label: 'Masai Mara safari cap',
+        amount: 4300,
+        detail: 'Three nights including game drives, park fees, meals, and transfers or light aircraft.',
       },
       {
-        label: 'Nairobi transit',
-        amount: 500,
-        detail: 'Two practical nights using Accor inventory where useful.',
+        label: 'Buffers and treats',
+        amount: 900,
+        detail: 'Spa, rooftop dinners, extra museum time, visas, tips, and contingency.',
       },
     ],
     timeline: [
       {
         days: 'Days 1-3',
-        title: 'Cairo arrival and Giza',
+        title: 'Cairo, but done calmly',
         base: 'Cairo',
-        detail: 'Use the first nights for Giza, the Sphinx, the Egyptian Museum, and recovery from London.',
+        detail:
+          'Private Giza and Saqqara day, Grand Egyptian Museum or Egyptian Museum, Islamic Cairo at golden hour, then a food walk rather than hotel dining every night.',
+        focus: 'History plus city texture',
       },
       {
         days: 'Days 4-7',
         title: 'Luxor deep dive',
         base: 'Luxor',
-        detail: 'Valley of the Kings, Karnak, Hatshepsut, and private guiding while October heat is manageable.',
+        detail:
+          'Valley of the Kings, Karnak, Hatshepsut, Medinet Habu, and a felucca or private dinner. Start early, rest at midday, go atmospheric in the evening.',
+        focus: 'Archaeology without burnout',
       },
       {
         days: 'Days 8-10',
         title: 'Nairobi bridge',
         base: 'Nairobi',
-        detail: 'Direct Cairo-Nairobi flight, one buffer night, then light aircraft into the Mara.',
+        detail:
+          'Fly Cairo to Nairobi, use one practical buffer night, then decide between drive-in value or fly-in romance for the Mara.',
+        focus: 'Transit protection',
       },
       {
         days: 'Days 11-14',
-        title: 'Masai Mara finish',
-        base: 'Olchoro Oirowua Conservancy',
-        detail: 'A focused safari cap with shared game drives, riverfront tented lodging, and a relaxed finale.',
+        title: 'Short, beautiful safari',
+        base: 'Masai Mara',
+        detail:
+          'Three nights is enough for sunrise drives, sundowners, and a Maasai community visit without letting safari dominate the honeymoon.',
+        focus: 'Wildlife finale',
       },
     ],
     strengths: [
-      'Lowest realistic cost while still feeling premium',
-      'Strongest culture and safari balance',
-      'October sits outside the most expensive Mara peak window',
+      'Strongest culture-to-safari balance',
+      'Independent tours are easy to book city by city',
+      'Flexible enough to upgrade one piece without changing the whole route',
     ],
     watchouts: [
-      'Requires a Cairo-Nairobi cash flight',
-      'Mara conservancy fees should be modelled explicitly',
-      'Optional ballooning can push the trip closer to NZ$10k pp',
+      'Cairo-Nairobi flight pricing can move the budget',
+      'Mara fly-in options feel more romantic but cost more than road transfers',
+      'October is still warm in Egypt, so early starts matter',
+    ],
+    tours: [
+      {
+        name: 'Cairo Food Tour',
+        location: 'Cairo',
+        style: 'Private food walk',
+        signal: 'Tripadvisor 4.9 from 145 reviews; 96% recommended',
+        price: 'Check live rate',
+        duration: 'Half day / evening',
+        why: 'Adds local texture after the monument days and keeps Cairo from feeling like a transfer stop.',
+        book: 'https://www.tripadvisor.com/AttractionProductReview-g294201-d19251003-Cairo_Food_Tour-Cairo_Cairo_Governorate.html',
+        source: 'Tripadvisor',
+      },
+      {
+        name: 'Private Guided Tour to Valley of the Kings',
+        location: 'Luxor',
+        style: 'Private Egyptologist',
+        signal: 'Tripadvisor Travelers Choice listing',
+        price: 'Check live rate',
+        duration: '4-8 hours',
+        why: 'The right splurge: a private guide changes Luxor from checklist sightseeing into narrative.',
+        book: 'https://www.tripadvisor.com/AttractionProductReview-g294205-d11459562-Private_Guided_Tour_to_Valley_of_the_Kings-Luxor_Nile_River_Valley.html',
+        source: 'Tripadvisor',
+      },
+      {
+        name: '3 Days Maasai Mara Guided Safari from Nairobi',
+        location: 'Nairobi to Masai Mara',
+        style: 'Short safari package',
+        signal: 'Tripadvisor 4.6 from 170 reviews',
+        price: 'From live supplier rate',
+        duration: '3 days',
+        why: 'A compact bookable option if you want the safari fixed independently rather than bundled into one giant honeymoon package.',
+        book: 'https://www.tripadvisor.com/AttractionProductReview-g294207-d11462655-3_Days_Maasai_Mara_Guided_Safari_from_Nairobi-Nairobi.html',
+        source: 'Tripadvisor',
+      },
     ],
     scores: {
       Budget: 5,
@@ -142,179 +224,273 @@ export const concepts: ItineraryConcept[] = [
   },
   {
     id: 'namibia-victoria',
-    label: 'Concept 2',
+    label: '02',
     title: 'Dunes, Deltas & Smoke',
     pairing: 'Namibia + Victoria Falls',
     summary:
-      'The cleanest routing and the strongest landscape contrast: Namib Desert, Sossusvlei, Victoria Falls, and short Zambezi/Chobe safari days.',
+      'The most modern-feeling honeymoon: design lodges, red dunes, stargazing, then Victoria Falls and a Chobe day safari.',
+    headlineDetail:
+      'This is the cleanest choice if you want fewer museums, more awe, and a route that feels visually extraordinary every second day.',
+    mood: 'Desert silence, flightseeing, waterfall mist, river sundowners',
     image:
-      'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1600&q=80',
-    costLabel: 'NZ$8,952-10,000 pp',
-    costMin: 8952,
-    costMax: 10000,
+      'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1800&q=84',
+    gallery: namibiaGallery,
+    costLabel: 'NZ$9,000-10,800 pp',
+    costMin: 9000,
+    costMax: 10800,
     duration: '14-15 days',
     transit: 'Low',
-    safariDays: '3-4 days',
-    culturalWonder: 'Ancient teak forests and desert-adapted routes',
-    naturalWonder: 'Sossusvlei Dunes and Victoria Falls',
-    safariBase: 'Mbano Manor, Zambezi National Park, Chobe',
-    route: ['London', 'Doha', 'Windhoek', 'Sossusvlei', 'Victoria Falls', 'London'],
+    safariDays: '2-3 days',
+    culturalWonder: 'Desert communities and colonial-era Swakopmund/Windhoek texture',
+    naturalWonder: 'Sossusvlei, Deadvlei, Victoria Falls, Chobe River',
+    safariBase: 'Victoria Falls with Chobe day trip and Zambezi drives',
+    route: ['London', 'Doha', 'Windhoek', 'Sossusvlei', 'Swakopmund', 'Victoria Falls', 'London'],
     assetFocus: [
-      'Avios sweet spot into Windhoek via Doha',
-      'Accor Plus at Movenpick Windhoek',
-      'Accor Plus at Mbano Manor by Mantis',
+      'Avios into Windhoek via Doha if award space is kind',
+      'Accor Plus in Windhoek and Victoria Falls/Mantis inventory',
+      'Cash for desert lodges and high-quality transfers',
     ],
     idealFor:
-      'Best when the brief is maximum natural wonder, minimum routing friction, and no South Africa transit.',
+      'Best if the priority is visual drama, simpler logistics, and minimal safari fatigue.',
     budget: [
       {
-        label: 'International and regional flights',
-        amount: 1280,
-        detail: 'Avios for long haul, plus Airlink Windhoek-Victoria Falls.',
+        label: 'Flights and regional hop',
+        amount: 1500,
+        detail: 'Avios for long haul where useful; protect Windhoek-Victoria Falls routing early.',
       },
       {
         label: 'Namibia landscapes',
-        amount: 3400,
-        detail: 'Windhoek stop, desert lodges, guided transfers, Sossusvlei, and Deadvlei.',
+        amount: 3900,
+        detail: 'Guided Sossusvlei/Deadvlei, Swakopmund or Sandwich Harbour, lodges, and transfers.',
       },
       {
         label: 'Victoria Falls base',
-        amount: 3272,
-        detail: 'Four nights at Mbano Manor before member discounts or package value.',
+        amount: 3100,
+        detail: 'Four nights near the Falls with room for Accor/Mantis value.',
       },
       {
-        label: 'Falls and safari activities',
-        amount: 1000,
-        detail: "Devil's Pool, targeted game drives, and a Chobe day option.",
+        label: 'Independent tours',
+        amount: 1450,
+        detail: 'Chobe, helicopter or microlight, guided Falls walk, river cruise, tips, visas.',
       },
     ],
     timeline: [
       {
         days: 'Days 1-2',
-        title: 'Windhoek landing',
+        title: 'Windhoek reset',
         base: 'Windhoek',
-        detail: 'Use Movenpick or similar Accor inventory as a secure reset before the desert.',
+        detail:
+          'Arrive, sleep properly, collect local SIM/cash, and avoid launching straight into long gravel transfers while tired.',
+        focus: 'Low-friction landing',
       },
       {
-        days: 'Days 3-8',
+        days: 'Days 3-6',
         title: 'Sossusvlei and Deadvlei',
         base: 'Namib Desert',
-        detail: 'Dunes, salt pans, stargazing, and guided transfers instead of self-driving long gravel roads.',
+        detail:
+          'Dune 45, Big Daddy/Deadvlei, Sesriem Canyon, night skies, and lodge downtime. Guided transfer beats self-driving if you want honeymoon energy.',
+        focus: 'Signature natural wonder',
       },
       {
-        days: 'Day 9',
-        title: 'Direct Airlink bridge',
-        base: 'Windhoek to Victoria Falls',
-        detail: 'The key route unlock: Windhoek to Victoria Falls in about 1 hour 25 minutes.',
+        days: 'Days 7-9',
+        title: 'Swakopmund or Sandwich Harbour',
+        base: 'Coast',
+        detail:
+          'Add one ocean-desert contrast chapter: Sandwich Harbour 4x4, dunes meeting the Atlantic, cafes, and a gentler pace before the Falls.',
+        focus: 'Landscape contrast',
       },
       {
         days: 'Days 10-14',
-        title: 'Falls, river, and light safari',
-        base: 'Victoria Falls',
-        detail: "Mbano Manor base, Devil's Pool timing, Zambezi game drives, and optional Chobe elephants.",
+        title: 'Victoria Falls and Chobe',
+        base: 'Victoria Falls / Livingstone',
+        detail:
+          'Guided Falls walk, Devil’s Pool if seasonal and conditions permit, sunset cruise, helicopter, and a single Chobe day for elephants.',
+        focus: 'Falls plus light safari',
       },
     ],
     strengths: [
-      'Best logistics and lowest transit drag',
-      'Most cinematic natural-wonder itinerary',
-      'Direct Windhoek-Victoria Falls route avoids South Africa',
+      'Most cinematic and least package-like',
+      'Safari can stay as a day-trip layer rather than a lodge-heavy block',
+      'October is good for dry-season wildlife around Chobe and Victoria Falls',
     ],
     watchouts: [
-      'Less ancient-history depth than Egypt concepts',
-      'Namibia transfers must be planned carefully',
-      'October heat can be intense in the Zambezi region',
+      'Less ancient history than Egypt routes',
+      'Namibia distances are real; private transfers cost more but protect the mood',
+      'Devil’s Pool is seasonal and water-level dependent',
+    ],
+    tours: [
+      {
+        name: 'Deadvlei and Sossusvlei guided visit',
+        location: 'Namib-Naukluft Park',
+        style: 'Natural wonder day',
+        signal: 'Deadvlei Tripadvisor 4.8 from 1,041 reviews',
+        price: 'Usually booked via lodge or local guide',
+        duration: 'Sunrise to midday',
+        why: 'This is the visual heart of Namibia: salt pan, red dunes, petrified camel-thorn trees, and proper silence.',
+        book: 'https://www.tripadvisor.com/Attraction_Review-g1184851-d4074559-Reviews-Deadvlei-Sossusvlei_Namib_Naukluft_Park.html',
+        source: 'Tripadvisor',
+      },
+      {
+        name: 'Sandwich Harbour 4x4',
+        location: 'Walvis Bay / Swakopmund',
+        style: 'Small-group 4x4',
+        signal: 'Commonly recommended over self-driving due to tide and terrain risk',
+        price: 'Check live operator rate',
+        duration: 'Half or full day',
+        why: 'Dunes dropping into the Atlantic gives Namibia a second wow moment beyond Sossusvlei.',
+        book: 'https://www.tripadvisor.com/Search?q=Sandwich%20Harbour%204x4%20tour%20Namibia',
+        source: 'Tripadvisor search',
+      },
+      {
+        name: 'Chobe Day Trip From Victoria Falls Zimbabwe',
+        location: 'Victoria Falls to Chobe',
+        style: 'Boat and land safari',
+        signal: 'Tripadvisor 5.0 from 60 reviews; 98% recommended',
+        price: 'From about US$170 on comparable listings',
+        duration: 'Full day',
+        why: 'The cleanest way to add elephants and river wildlife while keeping safari days capped.',
+        book: 'https://www.tripadvisor.com/AttractionProductReview-g293761-d20204001-Chobe_Day_Trip_From_Victoria_Falls_Zimbabwe-Victoria_Falls_Matabeleland_North_Prov.html',
+        source: 'Tripadvisor',
+      },
     ],
     scores: {
-      Budget: 5,
+      Budget: 4,
       Ease: 5,
       Culture: 3,
       Nature: 5,
-      Romance: 4,
+      Romance: 5,
     },
   },
   {
     id: 'egypt-victoria',
-    label: 'Concept 3',
-    title: 'Pan-African Masterpiece',
+    label: '03',
+    title: 'Nile to Zambezi',
     pairing: 'Egypt + Victoria Falls',
     summary:
-      'The most ambitious option: Egypts monuments and Victoria Falls in one continent-spanning honeymoon.',
+      'The big-swing route: Egypt’s best ancient sites paired with Victoria Falls, Devil’s Pool, Chobe, and river-based romance.',
+    headlineDetail:
+      'Choose this when you want the most iconic story and accept that it needs careful flight buffers to stay elegant.',
+    mood: 'Ancient stone, rainforest spray, helicopter views, Zambezi sunsets',
     image:
-      'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1600&q=80',
-    costLabel: 'NZ$10,910-11,500 pp',
-    costMin: 10910,
-    costMax: 11500,
-    duration: '14-17 days',
+      'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=1800&q=84',
+    gallery: victoriaGallery,
+    costLabel: 'NZ$10,900-12,000 pp',
+    costMin: 10900,
+    costMax: 12000,
+    duration: '15-17 days',
     transit: 'High',
-    safariDays: '3-4 days',
-    culturalWonder: 'Egyptian monoliths and Nile Valley sites',
-    naturalWonder: 'Victoria Falls and the Zambezi',
-    safariBase: 'Mbano Manor, Chobe, Zambezi National Park',
+    safariDays: '2-3 days',
+    culturalWonder: 'Cairo, Giza, Saqqara, Luxor temples',
+    naturalWonder: 'Victoria Falls and Zambezi / Chobe ecosystem',
+    safariBase: 'Victoria Falls, Livingstone, Chobe',
     route: ['London', 'Cairo', 'Luxor', 'Addis Ababa or Nairobi', 'Victoria Falls', 'London'],
     assetFocus: [
-      'Avios on London-Cairo and Victoria Falls-London',
-      'Kindred credits in Cairo if available',
-      'Accor Plus at Mbano Manor',
+      'Avios for outer legs if routings price cleanly',
+      'Kindred for Cairo if availability is excellent',
+      'Accor/Mantis at Victoria Falls where rates fit',
     ],
     idealFor:
-      'Best when the couple wants the highest drama and is comfortable spending more time in the air.',
+      'Best if you want the honeymoon to feel like a once-only African greatest-hits journey.',
     budget: [
       {
-        label: 'International and intercontinental flights',
-        amount: 2300,
-        detail: 'Avios covers outer legs; Cairo-Victoria Falls likely needs cash.',
+        label: 'Flights and bridges',
+        amount: 2600,
+        detail: 'The expensive piece: Egypt to Victoria Falls needs protected connections.',
       },
       {
-        label: 'Egypt cultural segment',
-        amount: 2700,
-        detail: 'Kindred can offset Cairo lodging; budget goes to guides, dining, and Luxor flights.',
+        label: 'Egypt culture block',
+        amount: 3400,
+        detail: 'Private guide continuity, domestic transit, museums, temples, and better hotels.',
       },
       {
-        label: 'Victoria Falls lodging',
-        amount: 4910,
-        detail: 'Six nights at Mbano Manor baseline before discounts or package value.',
+        label: 'Victoria Falls stay',
+        amount: 3900,
+        detail: 'Four to five nights in a romantic base with Falls access and river activities.',
       },
       {
-        label: 'Chobe and falls experiences',
-        amount: 1000,
-        detail: 'Flight of Angels, river cruise, Chobe excursion, and Zambezi drives.',
+        label: 'Experiences and buffer',
+        amount: 1300,
+        detail: 'Devil’s Pool/Livingstone Island, Chobe, flightseeing, visas, tips, and delay cushion.',
       },
     ],
     timeline: [
       {
-        days: 'Days 1-7',
-        title: 'Egypt anchor week',
-        base: 'Cairo and Luxor',
-        detail: 'Pyramids, museum time, Luxor temples, Valley of the Kings, and private guide continuity.',
+        days: 'Days 1-4',
+        title: 'Cairo and ancient Memphis',
+        base: 'Cairo',
+        detail:
+          'Giza, Saqqara, museums, Coptic or Islamic Cairo, then a food tour to make the city feel lived-in rather than purely monumental.',
+        focus: 'Ancient plus modern Cairo',
       },
       {
-        days: 'Day 8',
-        title: 'Long continental bridge',
-        base: 'Cairo to Victoria Falls',
-        detail: 'One-stop routing via Addis Ababa or Nairobi, ideally protected on one ticket.',
+        days: 'Days 5-8',
+        title: 'Luxor with space',
+        base: 'Luxor',
+        detail:
+          'Valley of the Kings, Karnak, Hatshepsut, Luxor Temple by evening, and one slower day so the Egypt section lands emotionally.',
+        focus: 'Deep history',
       },
       {
-        days: 'Days 9-12',
-        title: 'Victoria Falls immersion',
-        base: 'Mbano Manor',
-        detail: 'Falls viewpoints, rainforest micro-climate, helicopter flight, and Zambezi sunset cruise.',
+        days: 'Days 9-10',
+        title: 'Continental bridge',
+        base: 'In transit',
+        detail:
+          'Keep one protected buffer and avoid stitching separate tickets too tightly. This route should feel considered, not heroic.',
+        focus: 'Risk control',
       },
       {
-        days: 'Days 13-15',
-        title: 'Chobe and Zambezi safari cap',
-        base: 'Botswana and Zimbabwe',
-        detail: 'Two-day Chobe pulse plus one or two local Zambezi drives without turning the trip into a full safari.',
+        days: 'Days 11-16',
+        title: 'Falls, island, river, Chobe',
+        base: 'Victoria Falls / Livingstone',
+        detail:
+          'Guided Falls walk, Livingstone Island or Devil’s Pool if open, flightseeing, Zambezi sunset cruise, and one Chobe day trip.',
+        focus: 'Natural wonder finale',
       },
     ],
     strengths: [
-      'Most iconic culture-plus-nature combination',
-      'Kindred can materially protect the Egypt cash budget',
-      'Strong honeymoon narrative from Nile to Zambezi',
+      'Most iconic culture-plus-nature narrative',
+      'Independent activities are plentiful around both Cairo/Luxor and the Falls',
+      'Chobe gives wildlife without committing to a full safari lodge block',
     ],
     watchouts: [
-      'Highest cost and longest transit profile',
-      'Yellow fever certificate planning matters if routing through endemic zones',
-      'Needs stronger buffer days than the other concepts',
+      'Highest routing complexity',
+      'Budget can hit the upper ceiling if flights are not solved with points',
+      'Needs careful visa and yellow fever routing checks',
+    ],
+    tours: [
+      {
+        name: 'Devil’s Pool / Livingstone Island',
+        location: 'Victoria Falls, Zambia',
+        style: 'Guided falls-edge experience',
+        signal: 'Tripadvisor Travelers Choice attraction; #2 of 23 things to do in Livingstone in search result',
+        price: 'Seasonal live rate',
+        duration: 'Half day',
+        why: 'The high-drama honeymoon moment, but only if conditions and comfort level are right.',
+        book: 'https://www.tripadvisor.com/Attraction_Review-g298089-d1636701-Reviews-Devil_s_Pool-Livingstone_Southern_Province.html',
+        source: 'Tripadvisor',
+      },
+      {
+        name: 'Chobe Full Day Trip From Victoria Falls',
+        location: 'Victoria Falls to Chobe',
+        style: 'Boat cruise plus game drive',
+        signal: 'Tripadvisor 4.6 from 43 reviews; 90% recommended',
+        price: 'From about US$170 on listing',
+        duration: 'Full day',
+        why: 'A one-day wildlife injection that keeps the honeymoon weighted toward wonders, not safari logistics.',
+        book: 'https://www.tripadvisor.com/AttractionProductReview-g293761-d13828630-Chobe_Full_Day_Trip_From_Victoria_Falls-Victoria_Falls_Matabeleland_North_Province.html',
+        source: 'Tripadvisor',
+      },
+      {
+        name: 'Cairo Nights Food Tour with 15+ tastings',
+        location: 'Cairo',
+        style: 'Food and city walk',
+        signal: 'Tripadvisor surfaced 4.9 from 98 reviews for comparable Cairo night food tour',
+        price: 'Check live rate',
+        duration: 'Evening',
+        why: 'Breaks up heavy ancient-site days and gives the trip a more independent, less package-tour feeling.',
+        book: 'https://www.tripadvisor.com/Search?q=Cairo%20Nights%20Food%20Tour%2015%20Tastings',
+        source: 'Tripadvisor search',
+      },
     ],
     scores: {
       Budget: 3,
@@ -328,33 +504,41 @@ export const concepts: ItineraryConcept[] = [
 
 export const logistics = [
   {
-    title: 'Visas and borders',
+    title: 'Booking Strategy',
     items: [
-      'Egypt e-Visa or visa on arrival for UK citizens; passport validity should exceed six months.',
-      'Kenya eTA applies to the Kenya concept and should be submitted at least three days before travel.',
-      'For Victoria Falls, request the KAZA Univisa where eligible to cover Zimbabwe, Zambia, and Chobe day trips.',
+      'Book flights and lodges separately, then layer independent tours by city so you are not locked into one large package.',
+      'Use private guiding for Egypt, lodge-arranged or vetted operators for desert/falls logistics, and only package the short safari block where it genuinely simplifies the trip.',
+      'Hold a flexible buffer before any international return because intra-Africa connections are the fragile part of the plan.',
     ],
   },
   {
-    title: 'Health planning',
+    title: 'Visas And Borders',
+    items: [
+      'Egypt e-Visa or visa on arrival for UK citizens; passport validity should exceed six months.',
+      'Kenya eTA applies to the Kenya concept and should be submitted before travel.',
+      'For Victoria Falls and Chobe, check KAZA Univisa eligibility and whether your route enters Zimbabwe, Zambia, Botswana, or all three.',
+    ],
+  },
+  {
+    title: 'Health And Safety',
     items: [
       'Zambezi, Chobe, and Masai Mara areas require malaria advice from a travel clinic.',
       'Yellow fever certification depends on routing; avoid accidental certificate triggers where possible.',
-      'October heat means early-morning activity blocks and protected midday recovery time.',
+      'Prefer private transfers at night, early starts in hot regions, and guide-led remote activities.',
     ],
   },
   {
-    title: 'Safety profile',
+    title: 'Points And Memberships',
     items: [
-      'Use private guides and direct domestic flights in Egypts main antiquities corridor.',
-      'In Namibia, prefer guided transfers or regional flights over long self-drive gravel sections.',
-      'Safari zones around Mara, Zambezi, and Chobe are best handled through lodge-arranged guiding.',
+      'Use Avios where cash fares are ugly, but do not force awkward routings for theoretical points value.',
+      'Accor Plus is most useful for city buffers and selected Fairmont/Mantis inventory, not every remote lodge.',
+      'Kindred is a bonus for Cairo or Nairobi apartment-style nights, but should not determine the itinerary.',
     ],
   },
 ];
 
 export const sourceReport = {
-  label: 'Gemini Deep Research report',
-  path: '/Users/oc/.openclaw/deep-research/20260507T010738Z-honeymoon-itineraries-in-africa-for-october-2-2-5-weeks-from-london-budget-10k-1.md',
-  completed: '7 May 2026, 02:18 London',
+  label: 'Research-backed working plan',
+  path: 'Deep research report plus live Tripadvisor/public tour checks on 7 May 2026',
+  completed: 'Updated 7 May 2026',
 };

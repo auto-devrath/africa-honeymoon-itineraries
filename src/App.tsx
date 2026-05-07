@@ -1,23 +1,20 @@
 import { useMemo, useState } from 'react';
 import './App.css';
-import { concepts, logistics, sourceReport, tripBrief, type ConceptId, type ItineraryConcept, type ScoreKey } from './data';
+import {
+  concepts,
+  logistics,
+  sourceReport,
+  tripBrief,
+  type ConceptId,
+  type ItineraryConcept,
+  type ScoreKey,
+  type Tour,
+} from './data';
 
 const scoreKeys: ScoreKey[] = ['Budget', 'Ease', 'Culture', 'Nature', 'Romance'];
 
 function formatCurrency(value: number) {
   return `NZ$${value.toLocaleString('en-NZ')}`;
-}
-
-function ScoreBar({ label, value }: { label: ScoreKey; value: number }) {
-  return (
-    <div className="score-row">
-      <span>{label}</span>
-      <div className="score-track" aria-label={`${label} score ${value} out of 5`}>
-        <span style={{ width: `${(value / 5) * 100}%` }} />
-      </div>
-      <strong>{value}/5</strong>
-    </div>
-  );
 }
 
 function Hero({
@@ -27,22 +24,31 @@ function Hero({
 }: {
   activeConcept: ItineraryConcept;
   activeView: string;
-  setActiveView: (view: 'concepts' | 'compare' | 'logistics') => void;
+  setActiveView: (view: 'concepts' | 'tours' | 'compare' | 'logistics') => void;
 }) {
   return (
-    <header className="hero" style={{ backgroundImage: `linear-gradient(90deg, rgba(20, 24, 18, 0.9), rgba(20, 24, 18, 0.44)), url(${activeConcept.image})` }}>
+    <header
+      className="hero"
+      style={{
+        backgroundImage: `linear-gradient(105deg, rgba(5, 8, 11, 0.78), rgba(5, 8, 11, 0.42) 42%, rgba(5, 8, 11, 0.06)), url(${activeConcept.image})`,
+      }}
+    >
       <nav className="topbar" aria-label="Trip views">
-        <span className="brand">OC Travel Desk</span>
+        <button className="brand" type="button" onClick={() => setActiveView('concepts')}>
+          <span>OC</span>
+          <strong>Travel Studio</strong>
+        </button>
         <div className="view-tabs">
           {[
-            ['concepts', 'Concepts'],
+            ['concepts', 'Plan'],
+            ['tours', 'Tours'],
             ['compare', 'Compare'],
             ['logistics', 'Logistics'],
           ].map(([id, label]) => (
             <button
               key={id}
               className={activeView === id ? 'is-active' : ''}
-              onClick={() => setActiveView(id as 'concepts' | 'compare' | 'logistics')}
+              onClick={() => setActiveView(id as 'concepts' | 'tours' | 'compare' | 'logistics')}
               type="button"
             >
               {label}
@@ -55,13 +61,22 @@ function Hero({
         <p className="eyebrow">{tripBrief.timing} from {tripBrief.origin}</p>
         <h1>{tripBrief.title}</h1>
         <p className="hero-copy">{tripBrief.subtitle}</p>
-        <div className="hero-metrics" aria-label="Trip constraints">
-          <span>{tripBrief.budget}</span>
-          <span>{tripBrief.avios}</span>
-          <span>Safari capped at 3-4 days</span>
-          <span>No South Africa or beach towns</span>
+        <div className="hero-actions">
+          <button type="button" onClick={() => setActiveView('tours')}>
+            Browse independent tours
+          </button>
+          <button type="button" className="ghost" onClick={() => setActiveView('compare')}>
+            Compare routes
+          </button>
         </div>
       </div>
+
+      <aside className="hero-card" aria-label="Active itinerary">
+        <p>{activeConcept.label}</p>
+        <h2>{activeConcept.title}</h2>
+        <span>{activeConcept.pairing}</span>
+        <small>{activeConcept.mood}</small>
+      </aside>
     </header>
   );
 }
@@ -84,9 +99,9 @@ function ConceptPicker({
         >
           <img src={concept.image} alt="" />
           <span>
-            <small>{concept.label}</small>
+            <small>{concept.label} / {concept.pairing}</small>
             <strong>{concept.title}</strong>
-            <em>{concept.pairing}</em>
+            <em>{concept.costLabel}</em>
           </span>
         </button>
       ))}
@@ -104,13 +119,23 @@ function RouteLine({ route }: { route: string[] }) {
   );
 }
 
+function Gallery({ concept }: { concept: ItineraryConcept }) {
+  return (
+    <section className="gallery-grid" aria-label={`${concept.title} inspiration gallery`}>
+      {concept.gallery.map((image, index) => (
+        <img key={image} src={image} alt={`${concept.pairing} inspiration ${index + 1}`} />
+      ))}
+    </section>
+  );
+}
+
 function BudgetBreakdown({ concept }: { concept: ItineraryConcept }) {
   const total = concept.budget.reduce((sum, item) => sum + item.amount, 0);
 
   return (
     <section className="budget-panel">
       <div className="section-heading">
-        <p className="eyebrow">Budget model</p>
+        <p className="eyebrow">Budget Model</p>
         <h2>{concept.costLabel}</h2>
       </div>
       <div className="budget-list">
@@ -133,9 +158,9 @@ function BudgetBreakdown({ concept }: { concept: ItineraryConcept }) {
 
 function Timeline({ concept }: { concept: ItineraryConcept }) {
   return (
-    <section>
+    <section className="timeline-panel">
       <div className="section-heading">
-        <p className="eyebrow">Flow</p>
+        <p className="eyebrow">Day By Day</p>
         <h2>{concept.duration}</h2>
       </div>
       <ol className="timeline">
@@ -143,6 +168,7 @@ function Timeline({ concept }: { concept: ItineraryConcept }) {
           <li key={`${concept.id}-${item.days}`}>
             <span>{item.days}</span>
             <div>
+              <small>{item.focus}</small>
               <h3>{item.title}</h3>
               <strong>{item.base}</strong>
               <p>{item.detail}</p>
@@ -154,6 +180,39 @@ function Timeline({ concept }: { concept: ItineraryConcept }) {
   );
 }
 
+function TourCard({ tour }: { tour: Tour }) {
+  return (
+    <article className="tour-card">
+      <div>
+        <p className="eyebrow">{tour.location}</p>
+        <h3>{tour.name}</h3>
+        <p>{tour.why}</p>
+      </div>
+      <dl>
+        <div>
+          <dt>Style</dt>
+          <dd>{tour.style}</dd>
+        </div>
+        <div>
+          <dt>Review signal</dt>
+          <dd>{tour.signal}</dd>
+        </div>
+        <div>
+          <dt>Time</dt>
+          <dd>{tour.duration}</dd>
+        </div>
+        <div>
+          <dt>Price</dt>
+          <dd>{tour.price}</dd>
+        </div>
+      </dl>
+      <a href={tour.book} target="_blank" rel="noreferrer">
+        Open {tour.source}
+      </a>
+    </article>
+  );
+}
+
 function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
   return (
     <main className="content-grid">
@@ -162,9 +221,10 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
           <p className="eyebrow">{concept.pairing}</p>
           <h2>{concept.title}</h2>
           <p>{concept.summary}</p>
+          <p>{concept.headlineDetail}</p>
           <RouteLine route={concept.route} />
         </div>
-        <img src={concept.image} alt={`${concept.pairing} itinerary landscape`} />
+        <Gallery concept={concept} />
       </section>
 
       <section className="fact-grid" aria-label="Selected concept facts">
@@ -181,7 +241,7 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
           <strong>{concept.safariDays}</strong>
         </article>
         <article>
-          <span>Best for</span>
+          <span>Best For</span>
           <strong>{concept.idealFor}</strong>
         </article>
       </section>
@@ -191,10 +251,22 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
         <BudgetBreakdown concept={concept} />
       </section>
 
+      <section className="section-split">
+        <div className="section-heading">
+          <p className="eyebrow">Independent Booking Layer</p>
+          <h2>Book the magic without a giant package.</h2>
+        </div>
+        <div className="tour-grid">
+          {concept.tours.map((tour) => (
+            <TourCard key={`${concept.id}-${tour.name}`} tour={tour} />
+          ))}
+        </div>
+      </section>
+
       <section className="two-column">
         <div className="decision-panel">
           <div className="section-heading">
-            <p className="eyebrow">Decision signal</p>
+            <p className="eyebrow">Decision Signal</p>
             <h2>Why it works</h2>
           </div>
           <ul className="plain-list">
@@ -206,7 +278,7 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
 
         <div className="decision-panel">
           <div className="section-heading">
-            <p className="eyebrow">Planning checks</p>
+            <p className="eyebrow">Planning Checks</p>
             <h2>Watchouts</h2>
           </div>
           <ul className="plain-list">
@@ -219,8 +291,8 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
 
       <section className="asset-panel">
         <div className="section-heading">
-          <p className="eyebrow">Asset use</p>
-          <h2>Points and memberships</h2>
+          <p className="eyebrow">Points And Memberships</p>
+          <h2>Use the assets where they are actually useful.</h2>
         </div>
         <div className="asset-tags">
           {concept.assetFocus.map((item) => (
@@ -232,11 +304,56 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
   );
 }
 
+function ToursView() {
+  return (
+    <main className="content-grid">
+      <section className="section-split top-section">
+        <div className="section-heading">
+          <p className="eyebrow">Vetted Tour Shortlist</p>
+          <h2>Independent pieces to book around the itinerary.</h2>
+        </div>
+        <p>
+          These are not big package tours. They are modular experiences you can use to build the honeymoon yourselves:
+          Egyptologist days, food walks, desert guides, Falls experiences, and one compact safari layer.
+        </p>
+      </section>
+      {concepts.map((concept) => (
+        <section className="tour-section" key={concept.id}>
+          <div className="tour-section-head">
+            <span>{concept.label}</span>
+            <div>
+              <h2>{concept.title}</h2>
+              <p>{concept.pairing}</p>
+            </div>
+          </div>
+          <div className="tour-grid">
+            {concept.tours.map((tour) => (
+              <TourCard key={`${concept.id}-${tour.name}`} tour={tour} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </main>
+  );
+}
+
+function ScoreBar({ label, value }: { label: ScoreKey; value: number }) {
+  return (
+    <div className="score-row">
+      <span>{label}</span>
+      <div className="score-track" aria-label={`${label} score ${value} out of 5`}>
+        <span style={{ width: `${(value / 5) * 100}%` }} />
+      </div>
+      <strong>{value}/5</strong>
+    </div>
+  );
+}
+
 function CompareView() {
   const maxBudget = Math.max(...concepts.map((concept) => concept.costMax));
 
   return (
-    <main className="content-grid">
+    <main className="content-grid top-content">
       <section className="compare-table-wrap">
         <div className="section-heading">
           <p className="eyebrow">Shortlist</p>
@@ -250,7 +367,7 @@ function CompareView() {
               <th>Transit</th>
               <th>Culture</th>
               <th>Nature</th>
-              <th>Safari base</th>
+              <th>Independent tour anchor</th>
             </tr>
           </thead>
           <tbody>
@@ -264,7 +381,7 @@ function CompareView() {
                 <td>{concept.transit}</td>
                 <td>{concept.culturalWonder}</td>
                 <td>{concept.naturalWonder}</td>
-                <td>{concept.safariBase}</td>
+                <td>{concept.tours[0].name}</td>
               </tr>
             ))}
           </tbody>
@@ -297,7 +414,7 @@ function CompareView() {
 
 function LogisticsView() {
   return (
-    <main className="content-grid">
+    <main className="content-grid top-content">
       <section className="logistics-grid">
         {logistics.map((group) => (
           <article className="logistics-card" key={group.title}>
@@ -324,7 +441,7 @@ function LogisticsView() {
 }
 
 function App() {
-  const [activeView, setActiveView] = useState<'concepts' | 'compare' | 'logistics'>('concepts');
+  const [activeView, setActiveView] = useState<'concepts' | 'tours' | 'compare' | 'logistics'>('concepts');
   const [activeId, setActiveId] = useState<ConceptId>('namibia-victoria');
   const activeConcept = useMemo(
     () => concepts.find((concept) => concept.id === activeId) ?? concepts[0],
@@ -336,6 +453,7 @@ function App() {
       <Hero activeConcept={activeConcept} activeView={activeView} setActiveView={setActiveView} />
       {activeView === 'concepts' && <ConceptPicker activeId={activeId} setActiveId={setActiveId} />}
       {activeView === 'concepts' && <ConceptDetail concept={activeConcept} />}
+      {activeView === 'tours' && <ToursView />}
       {activeView === 'compare' && <CompareView />}
       {activeView === 'logistics' && <LogisticsView />}
     </div>
