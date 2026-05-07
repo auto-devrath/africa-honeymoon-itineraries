@@ -291,16 +291,125 @@ h1 {
 }
 
 .concept-strip,
+.concept-strip-wrap,
 .content-grid {
   width: min(1240px, calc(100% - 48px));
   margin: 0 auto;
+}
+
+.decision-path {
+  width: min(1240px, calc(100% - 48px));
+  margin: -64px auto 28px;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.32fr) minmax(0, 0.68fr);
+  gap: 16px;
+}
+
+.decision-path-intro,
+.path-step,
+.concept-strip-wrap,
+.cost-tile-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, var(--soft-shadow);
+  backdrop-filter: blur(22px) saturate(1.18);
+}
+
+.decision-path-intro {
+  padding: 24px;
+}
+
+.decision-path-intro h2,
+.concept-strip-heading h2,
+.cost-tile-panel h2 {
+  margin-bottom: 12px;
+  font-size: 1.55rem;
+  line-height: 1.1;
+}
+
+.decision-path-intro p:not(.eyebrow),
+.concept-strip-heading p,
+.cost-tile p,
+.summary-points {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.path-step-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.path-step {
+  min-height: 220px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.path-step > span {
+  width: 38px;
+  height: 30px;
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 840;
+}
+
+.path-step h3 {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.16;
+}
+
+.path-step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+.path-step button {
+  width: 100%;
+  min-height: 38px;
+  margin-top: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 780;
+}
+
+.concept-strip-wrap {
+  padding: 18px;
+  transform: translateY(-8px);
+}
+
+.concept-strip-heading {
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 0.58fr);
+  gap: 18px;
+  align-items: end;
+}
+
+.concept-strip-heading p {
+  margin-bottom: 0;
 }
 
 .concept-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  transform: translateY(-54px);
 }
 
 .concept-tile {
@@ -421,6 +530,7 @@ h1 {
 .feature-copy p:not(.eyebrow),
 .budget-row p,
 .plain-list,
+.summary-points,
 .timeline p,
 .source-panel p,
 .section-split > p,
@@ -429,6 +539,17 @@ h1 {
 .tour-card dd {
   color: var(--muted);
   line-height: 1.62;
+}
+
+.summary-points {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.summary-points li::marker {
+  color: var(--green);
 }
 
 .gallery-grid {
@@ -512,6 +633,73 @@ h1 {
   display: block;
   color: var(--ink);
   line-height: 1.34;
+}
+
+.cost-tile-panel {
+  padding: 24px;
+}
+
+.compact-heading {
+  margin-bottom: 14px;
+}
+
+.cost-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cost-tile {
+  min-height: 168px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+}
+
+.cost-tile span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 840;
+  text-transform: uppercase;
+}
+
+.cost-tile strong {
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1.08;
+}
+
+.cost-tile p {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.tone-flight {
+  border-top: 4px solid var(--blue);
+}
+
+.tone-stay {
+  border-top: 4px solid var(--green);
+}
+
+.tone-safari {
+  border-top: 4px solid var(--gold);
+}
+
+.tone-tour {
+  border-top: 4px solid var(--rose);
+}
+
+.tone-admin {
+  border-top: 4px solid #59636f;
+}
+
+.tone-buffer {
+  border-top: 4px solid var(--charcoal);
 }
 
 .two-column {
@@ -986,6 +1174,8 @@ code {
 
 @media (max-width: 1050px) {
   .concept-strip,
+  .concept-strip-heading,
+  .decision-path,
   .feature-panel,
   .two-column,
   .section-split,
@@ -997,6 +1187,11 @@ code {
   .logistics-grid,
   .source-panel {
     grid-template-columns: 1fr;
+  }
+
+  .path-step-grid,
+  .cost-tile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .tour-grid {
@@ -1023,6 +1218,8 @@ code {
   .topbar,
   .hero-content,
   .concept-strip,
+  .concept-strip-wrap,
+  .decision-path,
   .content-grid {
     width: calc(100% - 24px);
   }
@@ -1058,8 +1255,10 @@ code {
   }
 
   .concept-strip,
+  .path-step-grid,
   .tour-grid,
-  .cost-research-grid {
+  .cost-research-grid,
+  .cost-tile-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1082,6 +1281,10 @@ code {
   }
 
   .feature-copy,
+  .decision-path-intro,
+  .path-step,
+  .concept-strip-wrap,
+  .cost-tile-panel,
   .timeline-panel,
   .budget-panel,
   .decision-panel,

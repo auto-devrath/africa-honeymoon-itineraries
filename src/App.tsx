@@ -15,6 +15,36 @@ import {
 const scoreKeys: ScoreKey[] = ['Budget', 'Ease', 'Culture', 'Nature', 'Romance'];
 type ViewId = 'concepts' | 'generator' | 'costing' | 'tours' | 'compare' | 'logistics';
 
+const detailedCosts: Record<
+  ConceptId,
+  Array<{ label: string; value: string; note: string; tone: 'flight' | 'stay' | 'safari' | 'tour' | 'admin' | 'buffer' }>
+> = {
+  'egypt-kenya': [
+    { label: 'Flights', value: 'NZ$1.1k-1.6k', note: 'Avios for outer legs; pay Cairo-Nairobi bridge', tone: 'flight' },
+    { label: 'Accommodation', value: 'NZ$2.4k-3.2k', note: 'Cairo, Luxor, Nairobi, 3-night Mara lodge share', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$3.7k-4.8k', note: '3-4 days Mara, fees, meals, drives, transfer', tone: 'safari' },
+    { label: 'Private guides', value: 'NZ$1.0k-1.5k', note: 'Giza, Saqqara, Luxor West Bank, Karnak', tone: 'tour' },
+    { label: 'Visas + health', value: 'NZ$250-450', note: 'Egypt, Kenya eTA, malaria clinic buffer', tone: 'admin' },
+    { label: 'Honeymoon buffer', value: 'NZ$800-1.1k', note: 'Spa, rooftops, tips, delay cushion', tone: 'buffer' },
+  ],
+  'namibia-victoria': [
+    { label: 'Flights', value: 'NZ$1.3k-1.9k', note: 'UK-Windhoek/Falls routing; Avios if Qatar space works', tone: 'flight' },
+    { label: 'Accommodation', value: 'NZ$3.0k-4.0k', note: 'Windhoek, desert lodge, coast, Victoria Falls base', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$350-900', note: 'Chobe day trip or light Zambezi wildlife layer', tone: 'safari' },
+    { label: 'Experiences', value: 'NZ$1.5k-2.4k', note: 'Sossusvlei, Sandwich Harbour, helicopter/balloon choice', tone: 'tour' },
+    { label: 'Transfers', value: 'NZ$1.2k-2.0k', note: 'Guided desert/coast movement to avoid tired self-drive', tone: 'admin' },
+    { label: 'Honeymoon buffer', value: 'NZ$900-1.3k', note: 'Tips, visas, better dinners, FX movement', tone: 'buffer' },
+  ],
+  'egypt-victoria': [
+    { label: 'Flights', value: 'NZ$2.2k-3.0k', note: 'Hardest bridge: Egypt to Falls needs protection', tone: 'flight' },
+    { label: 'Accommodation', value: 'NZ$3.1k-4.1k', note: 'Egypt city stays plus romantic Falls base', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$350-900', note: 'Chobe day only; no lodge-heavy safari block', tone: 'safari' },
+    { label: 'Private guides', value: 'NZ$1.2k-1.8k', note: 'Egyptologist days plus Falls guiding', tone: 'tour' },
+    { label: 'Falls add-ons', value: 'NZ$1.2k-1.9k', note: 'Devil’s Pool, helicopter, cruise, park fees', tone: 'tour' },
+    { label: 'Admin + buffer', value: 'NZ$1.0k-1.5k', note: 'Visas, health, tips, missed-connection cushion', tone: 'buffer' },
+  ],
+};
+
 function formatCurrency(value: number) {
   return `NZ$${value.toLocaleString('en-NZ')}`;
 }
@@ -38,16 +68,16 @@ function Hero({
       <nav className="topbar" aria-label="Trip views">
         <button className="brand" type="button" onClick={() => setActiveView('concepts')}>
           <span>OC</span>
-          <strong>Travel Studio</strong>
+          <strong>Honeymoon Desk</strong>
         </button>
         <div className="view-tabs">
           {[
-            ['concepts', 'Plan'],
-            ['generator', 'Generator'],
-            ['costing', 'Costing'],
-            ['tours', 'Tours'],
-            ['compare', 'Compare'],
-            ['logistics', 'Logistics'],
+            ['concepts', 'Start'],
+            ['generator', 'Fit'],
+            ['compare', 'Choose'],
+            ['costing', 'Budget'],
+            ['tours', 'Book'],
+            ['logistics', 'Prep'],
           ].map(([id, label]) => (
             <button
               key={id}
@@ -63,14 +93,17 @@ function Hero({
 
       <div className="hero-content">
         <p className="eyebrow">{tripBrief.timing} from {tripBrief.origin}</p>
-        <h1>{tripBrief.title}</h1>
-        <p className="hero-copy">{tripBrief.subtitle}</p>
+        <h1>Choose the honeymoon route, then turn it into a trip.</h1>
+        <p className="hero-copy">
+          Start with the three realistic Africa routes, pick the one that fits your honeymoon
+          style, then use the same page to cost it, book the key pieces, and sanity-check logistics.
+        </p>
         <div className="hero-actions">
           <button type="button" onClick={() => setActiveView('generator')}>
-            Build honeymoon route
+            Find best fit
           </button>
-          <button type="button" className="ghost" onClick={() => setActiveView('costing')}>
-            See cost model
+          <button type="button" className="ghost" onClick={() => setActiveView('compare')}>
+            Compare routes
           </button>
         </div>
         <div className="hero-stats" aria-label="Trip constraints">
@@ -82,12 +115,83 @@ function Hero({
       </div>
 
       <aside className="hero-card" aria-label="Active itinerary">
-        <p>{activeConcept.label}</p>
+        <p>Current frontrunner</p>
         <h2>{activeConcept.title}</h2>
         <span>{activeConcept.pairing}</span>
         <small>{activeConcept.mood}</small>
       </aside>
     </header>
+  );
+}
+
+function DecisionPath({
+  activeConcept,
+  setActiveView,
+}: {
+  activeConcept: ItineraryConcept;
+  setActiveView: (view: ViewId) => void;
+}) {
+  const steps: Array<{
+    number: string;
+    title: string;
+    body: string;
+    action: string;
+    view: ViewId;
+  }> = [
+    {
+      number: '01',
+      title: 'Set the fit',
+      body: 'Decide pace, safari appetite, and whether culture or natural wonder should lead.',
+      action: 'Tune fit',
+      view: 'generator',
+    },
+    {
+      number: '02',
+      title: 'Choose the route',
+      body: 'Compare the three contenders by emotion, cost, transit risk, and honeymoon payoff.',
+      action: 'Compare',
+      view: 'compare',
+    },
+    {
+      number: '03',
+      title: 'Pressure-test cost',
+      body: 'Check where Avios, Accor Plus, Kindred, and cash actually help the plan.',
+      action: 'Budget',
+      view: 'costing',
+    },
+    {
+      number: '04',
+      title: 'Plan the pieces',
+      body: 'Move from concept to bookable tours, transfers, health checks, visas, and buffers.',
+      action: 'Prep',
+      view: 'logistics',
+    },
+  ];
+
+  return (
+    <section className="decision-path" aria-label="Honeymoon decision path">
+      <div className="decision-path-intro">
+        <p className="eyebrow">Start Here</p>
+        <h2>Use this like a decision workspace, not a brochure.</h2>
+        <p>
+          The goal is to end with one route you both trust. Right now the working frontrunner is
+          <strong> {activeConcept.pairing}</strong>, because it best balances wonder, budget, and
+          the safari cap.
+        </p>
+      </div>
+      <div className="path-step-grid">
+        {steps.map((step) => (
+          <article key={step.number} className="path-step">
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+            <button type="button" onClick={() => setActiveView(step.view)}>
+              {step.action}
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -99,22 +203,34 @@ function ConceptPicker({
   setActiveId: (id: ConceptId) => void;
 }) {
   return (
-    <section className="concept-strip" aria-label="Itinerary concepts">
-      {concepts.map((concept) => (
-        <button
-          key={concept.id}
-          type="button"
-          className={`concept-tile ${concept.id === activeId ? 'is-selected' : ''}`}
-          onClick={() => setActiveId(concept.id)}
-        >
-          <img src={concept.image} alt="" />
-          <span>
-            <small>{concept.label} / {concept.pairing}</small>
-            <strong>{concept.title}</strong>
-            <em>{concept.costLabel}</em>
-          </span>
-        </button>
-      ))}
+    <section className="concept-strip-wrap" aria-label="Itinerary concepts">
+      <div className="concept-strip-heading">
+        <div>
+          <p className="eyebrow">Step 2</p>
+          <h2>Pick the route you want to keep planning.</h2>
+        </div>
+        <p>
+          Selecting a route updates the day-by-day plan, cost model, watchouts, membership strategy,
+          and bookable tour shortlist below.
+        </p>
+      </div>
+      <div className="concept-strip">
+        {concepts.map((concept) => (
+          <button
+            key={concept.id}
+            type="button"
+            className={`concept-tile ${concept.id === activeId ? 'is-selected' : ''}`}
+            onClick={() => setActiveId(concept.id)}
+          >
+            <img src={concept.image} alt="" />
+            <span>
+              <small>{concept.label} / {concept.pairing}</small>
+              <strong>{concept.title}</strong>
+              <em>{concept.costLabel}</em>
+            </span>
+          </button>
+        ))}
+      </div>
     </section>
   );
 }
@@ -160,6 +276,26 @@ function BudgetBreakdown({ concept }: { concept: ItineraryConcept }) {
               <span style={{ width: `${Math.max(8, (item.amount / total) * 100)}%` }} />
             </div>
           </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DetailedCostGrid({ concept }: { concept: ItineraryConcept }) {
+  return (
+    <section className="cost-tile-panel">
+      <div className="section-heading compact-heading">
+        <p className="eyebrow">Cost Stack</p>
+        <h2>What the money is doing</h2>
+      </div>
+      <div className="cost-tile-grid">
+        {detailedCosts[concept.id].map((item) => (
+          <article className={`cost-tile tone-${item.tone}`} key={`${concept.id}-${item.label}`}>
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+            <p>{item.note}</p>
+          </article>
         ))}
       </div>
     </section>
@@ -230,8 +366,10 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
         <div className="feature-copy">
           <p className="eyebrow">{concept.pairing}</p>
           <h2>{concept.title}</h2>
-          <p>{concept.summary}</p>
-          <p>{concept.headlineDetail}</p>
+          <ul className="summary-points">
+            <li>{concept.summary}</li>
+            <li>{concept.headlineDetail}</li>
+          </ul>
           <RouteLine route={concept.route} />
           <div className="priority-list" aria-label="Planning emphasis">
             <span>{concept.culturalWonder}</span>
@@ -241,6 +379,8 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
         </div>
         <Gallery concept={concept} />
       </section>
+
+      <DetailedCostGrid concept={concept} />
 
       <section className="fact-grid" aria-label="Selected concept facts">
         <article>
@@ -268,7 +408,7 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
 
       <section className="section-split">
         <div className="section-heading">
-          <p className="eyebrow">Independent Booking Layer</p>
+          <p className="eyebrow">Step 4</p>
           <h2>Book the magic without a giant package.</h2>
         </div>
         <div className="tour-grid">
@@ -306,8 +446,8 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
 
       <section className="asset-panel">
         <div className="section-heading">
-          <p className="eyebrow">Points And Memberships</p>
-          <h2>Use the assets where they are actually useful.</h2>
+          <p className="eyebrow">Step 3</p>
+          <h2>Use points and memberships where they are actually useful.</h2>
         </div>
         <div className="asset-tags">
           {concept.assetFocus.map((item) => (
@@ -324,8 +464,8 @@ function CostingView() {
     <main className="content-grid top-content">
       <section className="section-split research-intro">
         <div className="section-heading">
-          <p className="eyebrow">Cost Intelligence</p>
-          <h2>Current planning bands, converted into NZD decisions.</h2>
+          <p className="eyebrow">Budget Check</p>
+          <h2>Pressure-test the chosen route before you fall in love with it.</h2>
         </div>
         <p>
           These are not quotes. They are the useful public-price signals that should shape the
@@ -402,8 +542,8 @@ function ItineraryGenerator() {
       <section className="generator-panel">
         <div className="generator-controls">
           <div className="section-heading">
-            <p className="eyebrow">Honeymoon Generator</p>
-            <h2>Shape the trip around how it should feel.</h2>
+            <p className="eyebrow">Step 1</p>
+            <h2>Shape the route around the honeymoon you actually want.</h2>
           </div>
           <label>
             Pace
@@ -461,8 +601,8 @@ function ToursView() {
     <main className="content-grid">
       <section className="section-split top-section">
         <div className="section-heading">
-          <p className="eyebrow">Vetted Tour Shortlist</p>
-          <h2>Independent pieces to book around the itinerary.</h2>
+          <p className="eyebrow">Booking Layer</p>
+          <h2>Turn the selected concept into bookable pieces.</h2>
         </div>
         <p>
           These are modular experiences rather than one giant package: Egyptologist days, food walks,
@@ -509,8 +649,8 @@ function CompareView() {
     <main className="content-grid top-content">
       <section className="compare-table-wrap">
         <div className="section-heading">
-          <p className="eyebrow">Shortlist</p>
-          <h2>Itinerary Matrix</h2>
+          <p className="eyebrow">Route Choice</p>
+          <h2>Compare the three contenders side by side.</h2>
         </div>
         <table className="compare-table">
           <thead>
@@ -604,6 +744,7 @@ function App() {
   return (
     <div className="app-shell">
       <Hero activeConcept={activeConcept} activeView={activeView} setActiveView={setActiveView} />
+      {activeView === 'concepts' && <DecisionPath activeConcept={activeConcept} setActiveView={setActiveView} />}
       {activeView === 'concepts' && <ConceptPicker activeId={activeId} setActiveId={setActiveId} />}
       {activeView === 'concepts' && <ConceptDetail concept={activeConcept} />}
       {activeView === 'generator' && <ItineraryGenerator />}
