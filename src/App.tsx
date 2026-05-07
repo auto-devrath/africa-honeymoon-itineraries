@@ -287,16 +287,30 @@ function DetailedCostGrid({ concept }: { concept: ItineraryConcept }) {
     <section className="cost-tile-panel">
       <div className="section-heading compact-heading">
         <p className="eyebrow">Cost Stack</p>
-        <h2>What the money is doing</h2>
+        <h2>Where the money goes</h2>
       </div>
-      <div className="cost-tile-grid">
-        {detailedCosts[concept.id].map((item) => (
-          <article className={`cost-tile tone-${item.tone}`} key={`${concept.id}-${item.label}`}>
-            <span>{item.label}</span>
-            <strong>{item.value}</strong>
-            <p>{item.note}</p>
-          </article>
-        ))}
+      <div className="table-scroll">
+        <table className="planning-table cost-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Estimate pp</th>
+              <th>Planning note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {detailedCosts[concept.id].map((item) => (
+              <tr key={`${concept.id}-${item.label}`}>
+                <td>
+                  <span className={`cost-dot tone-${item.tone}`} />
+                  {item.label}
+                </td>
+                <td>{item.value}</td>
+                <td>{item.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );
@@ -309,19 +323,64 @@ function Timeline({ concept }: { concept: ItineraryConcept }) {
         <p className="eyebrow">Day By Day</p>
         <h2>{concept.duration}</h2>
       </div>
-      <ol className="timeline">
-        {concept.timeline.map((item) => (
-          <li key={`${concept.id}-${item.days}`}>
-            <span>{item.days}</span>
-            <div>
-              <small>{item.focus}</small>
-              <h3>{item.title}</h3>
-              <strong>{item.base}</strong>
-              <p>{item.detail}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+      <div className="table-scroll">
+        <table className="planning-table timeline-table">
+          <thead>
+            <tr>
+              <th>Days</th>
+              <th>Base</th>
+              <th>Focus</th>
+              <th>Plan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {concept.timeline.map((item) => (
+              <tr key={`${concept.id}-${item.days}`}>
+                <td>{item.days}</td>
+                <td>
+                  <strong>{item.base}</strong>
+                  <span>{item.title}</span>
+                </td>
+                <td>{item.focus}</td>
+                <td>{item.detail}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function RouteSnapshotTable({ concept }: { concept: ItineraryConcept }) {
+  const rows = [
+    ['Route', concept.route.join(' -> ')],
+    ['Cost', concept.costLabel],
+    ['Trip length', concept.duration],
+    ['Safari cap', concept.safariDays],
+    ['Culture anchor', concept.culturalWonder],
+    ['Nature anchor', concept.naturalWonder],
+    ['Best for', concept.idealFor],
+  ];
+
+  return (
+    <section className="snapshot-panel">
+      <div className="section-heading compact-heading">
+        <p className="eyebrow">Selected Route</p>
+        <h2>{concept.pairing} at a glance</h2>
+      </div>
+      <div className="table-scroll">
+        <table className="planning-table snapshot-table">
+          <tbody>
+            {rows.map(([label, value]) => (
+              <tr key={label}>
+                <th>{label}</th>
+                <td>{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
@@ -380,26 +439,8 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
         <Gallery concept={concept} />
       </section>
 
+      <RouteSnapshotTable concept={concept} />
       <DetailedCostGrid concept={concept} />
-
-      <section className="fact-grid" aria-label="Selected concept facts">
-        <article>
-          <span>Cost</span>
-          <strong>{concept.costLabel}</strong>
-        </article>
-        <article>
-          <span>Transit</span>
-          <strong>{concept.transit}</strong>
-        </article>
-        <article>
-          <span>Safari</span>
-          <strong>{concept.safariDays}</strong>
-        </article>
-        <article>
-          <span>Best For</span>
-          <strong>{concept.idealFor}</strong>
-        </article>
-      </section>
 
       <section className="two-column">
         <Timeline concept={concept} />
@@ -465,24 +506,38 @@ function CostingView() {
       <section className="section-split research-intro">
         <div className="section-heading">
           <p className="eyebrow">Budget Check</p>
-          <h2>Pressure-test the chosen route before you fall in love with it.</h2>
+          <h2>Public price signals, condensed.</h2>
         </div>
         <p>
-          These are not quotes. They are the useful public-price signals that should shape the
-          itinerary: where to spend, where to cap, and where points or memberships can actually
-          protect the honeymoon budget.
+          Use this table to see what each big spend probably does to the budget. These are planning
+          signals, not final supplier quotes.
         </p>
       </section>
-      <section className="cost-research-grid">
-        {costResearch.map((item) => (
-          <article className="research-card" key={item.region}>
-            <span>{item.region}</span>
-            <h3>{item.anchor}</h3>
-            <strong>{item.nzd}</strong>
-            <p>{item.useInPlan}</p>
-            <small>{item.source}</small>
-          </article>
-        ))}
+      <section className="compare-table-wrap">
+        <div className="table-scroll">
+          <table className="planning-table research-table">
+            <thead>
+              <tr>
+                <th>Spend area</th>
+                <th>Public price signal</th>
+                <th>NZD guide</th>
+                <th>How to use it</th>
+                <th>Sources</th>
+              </tr>
+            </thead>
+            <tbody>
+              {costResearch.map((item) => (
+                <tr key={item.region}>
+                  <td>{item.region}</td>
+                  <td>{item.anchor}</td>
+                  <td>{item.nzd}</td>
+                  <td>{item.useInPlan}</td>
+                  <td>{item.source}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   );

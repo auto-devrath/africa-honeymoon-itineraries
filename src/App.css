@@ -12,6 +12,7 @@
   --gold: #b7772f;
   --rose: #b14b62;
   --charcoal: #17191d;
+  --green-soft: #eef8f3;
   --shadow: 0 34px 80px rgba(18, 22, 28, 0.18);
   --soft-shadow: 0 16px 42px rgba(18, 22, 28, 0.09);
   --radius: 8px;
@@ -490,6 +491,7 @@ h1 {
 .budget-panel,
 .decision-panel,
 .asset-panel,
+.snapshot-panel,
 .compare-table-wrap,
 .logistics-card,
 .source-panel,
@@ -717,6 +719,7 @@ h1 {
 .budget-panel,
 .decision-panel,
 .asset-panel,
+.snapshot-panel,
 .compare-table-wrap,
 .logistics-card,
 .source-panel,
@@ -1056,30 +1059,64 @@ h1 {
   overflow-x: auto;
 }
 
-.compare-table {
+.table-scroll {
+  overflow-x: auto;
+}
+
+.compare-table,
+.planning-table {
   width: 100%;
-  min-width: 900px;
   border-collapse: collapse;
 }
 
+.compare-table {
+  min-width: 900px;
+}
+
+.planning-table {
+  min-width: 760px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.86);
+}
+
 .compare-table th,
-.compare-table td {
+.compare-table td,
+.planning-table th,
+.planning-table td {
   padding: 16px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
 }
 
-.compare-table th {
+.compare-table th,
+.planning-table th {
   color: var(--ink-soft);
   font-size: 0.76rem;
   font-weight: 820;
   text-transform: uppercase;
 }
 
-.compare-table td {
+.compare-table td,
+.planning-table td {
   color: var(--muted);
   line-height: 1.48;
+}
+
+.planning-table th {
+  background: #f7f8fa;
+}
+
+.planning-table tbody tr:nth-child(even) td,
+.planning-table tbody tr:nth-child(even) th {
+  background: rgba(248, 249, 250, 0.68);
+}
+
+.planning-table tbody tr:last-child td,
+.planning-table tbody tr:last-child th {
+  border-bottom: 0;
 }
 
 .compare-table td strong,
@@ -1089,6 +1126,86 @@ h1 {
 
 .compare-table td strong {
   color: var(--ink);
+}
+
+.snapshot-table {
+  min-width: 0;
+}
+
+.snapshot-table th {
+  width: 180px;
+}
+
+.snapshot-table td {
+  color: var(--ink);
+  font-weight: 680;
+}
+
+.cost-table td:first-child,
+.timeline-table td:first-child,
+.research-table td:first-child {
+  color: var(--ink);
+  font-weight: 820;
+}
+
+.cost-table td:nth-child(2) {
+  white-space: nowrap;
+  color: var(--green);
+  font-weight: 840;
+}
+
+.timeline-table td:nth-child(2) strong,
+.timeline-table td:nth-child(2) span {
+  display: block;
+}
+
+.timeline-table td:nth-child(2) span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.research-table {
+  min-width: 1100px;
+}
+
+.research-table td:nth-child(3) {
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 820;
+}
+
+.cost-dot {
+  width: 10px;
+  height: 10px;
+  margin-right: 9px;
+  border-radius: 999px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cost-dot.tone-flight {
+  background: var(--blue);
+}
+
+.cost-dot.tone-stay {
+  background: var(--green);
+}
+
+.cost-dot.tone-safari {
+  background: var(--gold);
+}
+
+.cost-dot.tone-tour {
+  background: var(--rose);
+}
+
+.cost-dot.tone-admin {
+  background: #59636f;
+}
+
+.cost-dot.tone-buffer {
+  background: var(--charcoal);
 }
 
 .rank-grid {
@@ -1289,6 +1406,7 @@ code {
   .budget-panel,
   .decision-panel,
   .asset-panel,
+  .snapshot-panel,
   .compare-table-wrap,
   .logistics-card,
   .source-panel,
@@ -1329,5 +1447,10 @@ code {
 
   .budget-row {
     grid-template-columns: 1fr;
+  }
+
+  .snapshot-table,
+  .planning-table {
+    min-width: 640px;
   }
 }
