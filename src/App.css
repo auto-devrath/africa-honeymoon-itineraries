@@ -293,7 +293,8 @@ h1 {
 
 .concept-strip,
 .concept-strip-wrap,
-.content-grid {
+.content-grid,
+.decision-summary {
   width: min(1240px, calc(100% - 48px));
   margin: 0 auto;
 }
@@ -467,6 +468,44 @@ h1 {
   border-color: rgba(0, 113, 227, 0.48);
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 24px 56px rgba(0, 113, 227, 0.14);
+}
+
+.decision-summary {
+  margin-top: 18px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.decision-summary article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, var(--soft-shadow);
+  backdrop-filter: blur(20px) saturate(1.14);
+}
+
+.decision-summary span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 840;
+  text-transform: uppercase;
+}
+
+.decision-summary h3 {
+  margin-bottom: 8px;
+  font-size: 1.12rem;
+  line-height: 1.14;
+}
+
+.decision-summary p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .content-grid {
@@ -935,14 +974,34 @@ h1 {
   justify-content: center;
 }
 
+.match-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.match-meta span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #f8f8fa;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 840;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 .generated-route h2 {
   margin-bottom: 12px;
   font-size: clamp(2rem, 4vw, 4.6rem);
-  line-height: 0.98;
+  line-height: 1;
 }
 
 .generated-route strong {
   color: var(--ink-soft);
+  line-height: 1.35;
 }
 
 .top-section {
@@ -1428,6 +1487,7 @@ code {
   .research-intro,
   .generator-panel,
   .generated-route,
+  .decision-summary,
   .rank-grid,
   .logistics-grid,
   .asset-plan-grid,
@@ -1468,21 +1528,29 @@ code {
   .concept-strip,
   .concept-strip-wrap,
   .decision-path,
-  .content-grid {
+  .content-grid,
+  .decision-summary {
     width: calc(100% - 24px);
   }
 
   .topbar {
     align-items: stretch;
     flex-direction: column;
+    gap: 12px;
   }
 
   .view-tabs {
     overflow-x: auto;
+    border-radius: var(--radius);
+    scroll-snap-type: x proximity;
   }
 
   .view-tabs button {
-    min-width: 92px;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 4px;
+    font-size: 0.78rem;
+    scroll-snap-align: start;
   }
 
   .hero {
@@ -1503,6 +1571,7 @@ code {
   }
 
   .concept-strip,
+  .decision-summary,
   .path-step-grid,
   .tour-grid,
   .cost-research-grid,
@@ -1554,7 +1623,12 @@ code {
   }
 
   .generated-route img {
-    min-height: 280px;
+    min-height: 220px;
+    max-height: 280px;
+  }
+
+  .generated-route h2 {
+    font-size: 2.45rem;
   }
 
   .gallery-grid {

@@ -99,8 +99,8 @@ function Hero({
         <p className="eyebrow">{tripBrief.timing} from {tripBrief.origin}</p>
         <h1>Choose the honeymoon route, then turn it into a trip.</h1>
         <p className="hero-copy">
-          Start with the three realistic Africa routes, pick the one that fits your honeymoon
-          style, then use the same page to cost it, book the key pieces, and sanity-check logistics.
+          Start with the full Africa longlist from the brief, see what was ruled out, then pick
+          the route that best fits October, safety, budget, Avios, and a 3-4 day safari cap.
         </p>
         <div className="hero-actions">
           <button type="button" onClick={() => setActiveView('generator')}>
@@ -152,7 +152,7 @@ function DecisionPath({
     {
       number: '02',
       title: 'Choose the route',
-      body: 'Compare the three contenders by emotion, cost, transit risk, and honeymoon payoff.',
+      body: 'Compare the longlist first, then the three contenders by cost, safety, transit risk, and payoff.',
       action: 'Compare',
       view: 'compare',
     },
@@ -214,8 +214,8 @@ function ConceptPicker({
           <h2>Pick the route you want to keep planning.</h2>
         </div>
         <p>
-          Selecting a route updates the day-by-day plan, cost model, watchouts, membership strategy,
-          and bookable tour shortlist below.
+          These are the three routes worth building after screening Serengeti/Tanzania, Masai Mara,
+          Namibia, Zambia, West Africa, South Africa, and Ethiopia against the original brief.
         </p>
       </div>
       <div className="concept-strip">
@@ -419,6 +419,41 @@ function TourCard({ tour }: { tour: Tour }) {
         Check {tour.source}
       </a>
     </article>
+  );
+}
+
+function DecisionSummary() {
+  const summary = [
+    {
+      label: 'Best all-round brief match',
+      route: 'Egypt + Kenya',
+      reason:
+        'Most Jordan/Egypt/Morocco-like on the culture side, with a short Masai Mara safari instead of a safari-dominated honeymoon.',
+    },
+    {
+      label: 'Best natural-wonder honeymoon',
+      route: 'Namibia + Victoria Falls',
+      reason:
+        'Most cinematic and lowest-safari-fatigue option: dunes, Deadvlei, Swakopmund, Falls, and a single Chobe wildlife hit.',
+    },
+    {
+      label: 'Keep as backups, not frontrunners',
+      route: 'Tanzania / Zambia / West Africa',
+      reason:
+        'Tanzania is strong but more safari-led, Zambia is excellent but hot/logistically sharper in early October, and West Africa fails the first-safari/safety-confidence bar.',
+    },
+  ];
+
+  return (
+    <section className="decision-summary" aria-label="Recommendation summary">
+      {summary.map((item) => (
+        <article key={item.label}>
+          <span>{item.label}</span>
+          <h3>{item.route}</h3>
+          <p>{item.reason}</p>
+        </article>
+      ))}
+    </section>
   );
 }
 
@@ -666,7 +701,11 @@ function ItineraryGenerator() {
         <article className="generated-route">
           <img src={recommendation.image} alt="" />
           <div>
-            <p className="eyebrow">Best Match</p>
+            <div className="match-meta">
+              <span>Best Match</span>
+              <span>{recommendation.safariDays} safari</span>
+              <span>{recommendation.transit} transit</span>
+            </div>
             <h2>{recommendation.title}</h2>
             <strong>{recommendation.pairing} / {recommendation.costLabel}</strong>
             <RouteLine route={recommendation.route} />
@@ -962,6 +1001,7 @@ function App() {
       <Hero activeConcept={activeConcept} activeView={activeView} setActiveView={setActiveView} />
       {activeView === 'concepts' && <DecisionPath activeConcept={activeConcept} setActiveView={setActiveView} />}
       {activeView === 'concepts' && <ConceptPicker activeId={activeId} setActiveId={setActiveId} />}
+      {activeView === 'concepts' && <DecisionSummary />}
       {activeView === 'concepts' && <ConceptDetail concept={activeConcept} />}
       {activeView === 'generator' && <ItineraryGenerator />}
       {activeView === 'costing' && <CostingView />}
