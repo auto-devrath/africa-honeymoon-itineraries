@@ -54,6 +54,38 @@ export type ItineraryConcept = {
   scores: Record<ScoreKey, number>;
 };
 
+export type RouteCandidate = {
+  name: string;
+  status: 'Shortlist' | 'Backup' | 'Watchlist' | 'Exclude';
+  safari: string;
+  companion: string;
+  octoberFit: string;
+  safetyFit: string;
+  budgetFit: string;
+  verdict: string;
+};
+
+export type AssetPlan = {
+  asset: string;
+  bestUse: string;
+  avoid: string;
+  action: string;
+};
+
+export type SafetyCheck = {
+  route: string;
+  risks: string;
+  mitigations: string;
+  decision: string;
+};
+
+export type SourceNote = {
+  area: string;
+  confidence: 'High' | 'Medium' | 'Low';
+  evidence: string;
+  nextCheck: string;
+};
+
 export const tripBrief = {
   title: 'Africa Honeymoon Studio',
   subtitle:
@@ -246,7 +278,7 @@ export const concepts: ItineraryConcept[] = [
   {
     id: 'namibia-victoria',
     label: '02',
-    title: 'Dunes, Deltas & Smoke',
+    title: 'Dunes, Falls & Smoke',
     pairing: 'Namibia + Victoria Falls',
     summary:
       'The most modern-feeling honeymoon: design lodges, red dunes, stargazing, then Victoria Falls and a Chobe day safari.',
@@ -580,9 +612,179 @@ export const logistics = [
 
 export const sourceReport = {
   label: 'Research-backed working plan',
-  path: 'Deep research report plus live 2026 public pricing checks on 7 May 2026',
-  completed: 'Updated 7 May 2026',
+  path: 'Gemini Deep Research reports from 5 and 7 May 2026, with a refresh job started 8 May 2026',
+  completed: 'Updated 8 May 2026',
 };
+
+export const routeCandidates: RouteCandidate[] = [
+  {
+    name: 'Egypt + Kenya / Masai Mara',
+    status: 'Shortlist',
+    safari: 'Masai Mara, 3-4 days',
+    companion: 'Cairo, Luxor, possibly Aswan',
+    octoberFit: 'Strong: Egypt shoulder season and East Africa late dry season.',
+    safetyFit: 'Manageable with private guides, tourist corridors, and Nairobi buffer nights.',
+    budgetFit: 'Strong because Egypt keeps the non-safari week efficient.',
+    verdict: 'Best culture-plus-safari answer to the original brief.',
+  },
+  {
+    name: 'Oman + Tanzania / Serengeti or Ruaha',
+    status: 'Backup',
+    safari: 'Serengeti, Ruaha, or northern Tanzania, 3-4 days',
+    companion: 'Muscat, Nizwa, Wahiba Sands, Hajar Mountains',
+    octoberFit: 'Strong: safe desert/culture first, then peak Tanzania safari conditions.',
+    safetyFit: 'Very strong on the Oman side; Tanzania is well-trodden but needs malaria planning.',
+    budgetFit: 'Strong if one safari lodge is chosen carefully.',
+    verdict: 'Best alternative if Egypt feels too hectic; technically not all-Africa, but very on-brief emotionally.',
+  },
+  {
+    name: 'Namibia + Victoria Falls / Chobe',
+    status: 'Shortlist',
+    safari: 'Chobe or Zambezi day safaris, 1-3 days',
+    companion: 'Sossusvlei, Deadvlei, Swakopmund, Victoria Falls',
+    octoberFit: 'Excellent wildlife visibility, but hot and dry.',
+    safetyFit: 'Generally stable; road safety and urban opportunistic crime are the main watchouts.',
+    budgetFit: 'Good if transfers are planned and lodge splurges are selective.',
+    verdict: 'Best natural-wonder route and current frontrunner if heat tolerance is acceptable.',
+  },
+  {
+    name: 'Zambia / Victoria Falls + South Luangwa',
+    status: 'Watchlist',
+    safari: 'South Luangwa, 3-4 days',
+    companion: 'Livingstone, Victoria Falls, Zambezi activities',
+    octoberFit: 'Peak wildlife, but extreme heat; Victoria Falls can be low on the Zambian side.',
+    safetyFit: 'Politically stable tourism circuit; medical/heat planning matters.',
+    budgetFit: 'Good, but premium camps consume budget quickly.',
+    verdict: 'A brilliant safari choice, but less honeymoon-comfortable in early October.',
+  },
+  {
+    name: 'Pure Tanzania / Serengeti + Ngorongoro + culture',
+    status: 'Backup',
+    safari: 'Serengeti or Ngorongoro, 3-4 days',
+    companion: 'Arusha coffee/cultural stays, Lake Eyasi/Hadzabe only if done ethically',
+    octoberFit: 'Strong for wildlife and weather.',
+    safetyFit: 'Well-established tourism corridor.',
+    budgetFit: 'Good, though luxury fly-in safari rises fast.',
+    verdict: 'Strong safari-first backup, but weaker than Egypt/Kenya for ancient cultural depth.',
+  },
+  {
+    name: 'West Africa safari + culture',
+    status: 'Exclude',
+    safari: 'Ghana/Mole, Senegal/Niokolo-Koba, or Benin/Pendjari region',
+    companion: 'Accra, Cape Coast, Dakar, Ouidah, Benin heritage routes',
+    octoberFit: 'Variable: some parks are less compelling than East/Southern Africa for first safari.',
+    safetyFit: 'Mixed; several richer wildlife areas sit near higher-risk border regions.',
+    budgetFit: 'Can fit, but routing and operator confidence are weaker.',
+    verdict: 'Culturally fascinating, but not the best honeymoon safari answer under the safety constraint.',
+  },
+  {
+    name: 'South Africa + Victoria Falls',
+    status: 'Exclude',
+    safari: 'Kruger or private reserves',
+    companion: 'Cape Town, Winelands, Garden Route',
+    octoberFit: 'Good overall.',
+    safetyFit: 'Well-travelled but city crime planning is more prominent.',
+    budgetFit: 'Strong.',
+    verdict: 'Ruled out because the brief says South Africa should probably be a separate trip.',
+  },
+  {
+    name: 'Ethiopia historical route + Kenya',
+    status: 'Exclude',
+    safari: 'Kenya add-on',
+    companion: 'Lalibela, Gondar, Danakil, Simien routes',
+    octoberFit: 'Culturally exceptional.',
+    safetyFit: 'Fails the safety bar because official travel warnings affect major historical regions.',
+    budgetFit: 'Could fit, but insurance/risk profile is the blocker.',
+    verdict: 'Do not build a honeymoon around this unless advisories materially improve.',
+  },
+];
+
+export const assetPlans: AssetPlan[] = [
+  {
+    asset: '200,000 Avios',
+    bestUse: 'Use for the most expensive UK-Africa long-haul legs, especially BA/Qatar routings to Nairobi, Cairo, Doha, Windhoek, or Victoria Falls gateways.',
+    avoid: 'Do not force multi-stop awards that create risky separate tickets or awkward overnight transits.',
+    action: 'Check award seats 355-361 days out, compare taxes/fees against cash fares, and treat Avios as a comfort/budget lever rather than a route dictator.',
+  },
+  {
+    asset: 'Accor Plus / ALL',
+    bestUse: 'City buffers and selected luxury properties: Fairmont Mara, Sofitel Legend Old Cataract, Mantis/Mbano Manor, Movenpick Windhoek, Nairobi hotels.',
+    avoid: 'Expecting Accor to solve remote desert lodges or every safari camp.',
+    action: 'Price Accor properties against direct lodge packages and only use the benefit where location and cancellation terms are still right.',
+  },
+  {
+    asset: 'Kindred',
+    bestUse: 'Cairo, Nairobi, Muscat, Windhoek, or London pre/post nights where apartment-style living is useful.',
+    avoid: 'Remote safari, desert, national park, or Victoria Falls inventory assumptions.',
+    action: 'Treat as upside only: check city availability after route choice, then redirect any savings to private guides or one signature experience.',
+  },
+  {
+    asset: 'DIY booking',
+    bestUse: 'Book flights, city hotels, private guides, and single-day experiences independently; package only the short safari block if it reduces logistics.',
+    avoid: 'One giant honeymoon package that hides lodge/fee/transfer assumptions.',
+    action: 'Get 2-3 safari quotes after choosing the route, then compare inclusions: park fees, conservancy fees, transfers, meals, drinks, laundry, and evacuation cover.',
+  },
+];
+
+export const safetyChecks: SafetyCheck[] = [
+  {
+    route: 'Egypt + Kenya',
+    risks: 'Cairo/Luxor crowd pressure, road hassle, Nairobi transit risk, malaria in safari areas.',
+    mitigations: 'Private Egyptologist/driver, flights over long road moves, Nairobi buffer, vetted Mara lodge, travel clinic before booking.',
+    decision: 'Passes safety bar if kept to main tourist corridors and reputable operators.',
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    risks: 'Long gravel drives, heat, Windhoek petty crime, border complexity around Zimbabwe/Zambia/Botswana.',
+    mitigations: 'Guided transfers or fly-in segments, no night driving, KAZA Univisa planning, lodge-arranged Chobe/Falls activities.',
+    decision: 'Passes safety bar, but heat tolerance and road strategy need an explicit couple decision.',
+  },
+  {
+    route: 'Zambia + South Luangwa',
+    risks: 'October heat above normal comfort thresholds, malaria, domestic flight dependence.',
+    mitigations: 'Choose air-conditioned/luxury camps, schedule only dawn/dusk activities, build connection buffers.',
+    decision: 'Viable but not the most comfortable honeymoon choice for early October.',
+  },
+  {
+    route: 'West Africa wildlife routes',
+    risks: 'Less predictable safari payoff, weaker luxury operator depth, some high-value parks near higher-risk border areas.',
+    mitigations: 'Could design a culture-first Ghana/Senegal trip, but it would not be the strongest safari honeymoon.',
+    decision: 'Exclude from main shortlist; include only as a separate cultural trip idea.',
+  },
+];
+
+export const sourceNotes: SourceNote[] = [
+  {
+    area: 'Research coverage',
+    confidence: 'High',
+    evidence: 'Two completed Gemini Deep Research reports dated 5 and 7 May 2026 plus an 8 May refresh job.',
+    nextCheck: 'Fold in the 8 May report when it completes and preserve source links for live supplier checks.',
+  },
+  {
+    area: 'Safety',
+    confidence: 'Medium',
+    evidence: 'Research used official-advisory style screening and ruled out Ethiopia/Jordan-like risk profiles.',
+    nextCheck: 'Recheck FCDO country pages immediately before deposits and again before final payment.',
+  },
+  {
+    area: 'Budget',
+    confidence: 'Medium',
+    evidence: 'Ranges use public safari/operator/hotel signals and USD/NZD planning conversions.',
+    nextCheck: 'Replace planning ranges with real quotes for flights, safari camps, and transfers once dates are fixed.',
+  },
+  {
+    area: 'Avios',
+    confidence: 'Medium',
+    evidence: 'Research identifies BA/Qatar as the likely best value, but award seats are inventory-dependent.',
+    nextCheck: 'Run live BA/Qatar reward searches for the exact October dates before committing to any route.',
+  },
+  {
+    area: 'Kindred and Accor',
+    confidence: 'Medium',
+    evidence: 'Useful in hubs and selected branded hotels, weak in remote safari/desert locations.',
+    nextCheck: 'Check actual Kindred homes and Accor cancellable rates only after selecting the route.',
+  },
+];
 
 export const costResearch = [
   {

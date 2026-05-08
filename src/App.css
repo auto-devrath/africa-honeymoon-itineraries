@@ -1169,6 +1169,28 @@ h1 {
   min-width: 1100px;
 }
 
+.longlist-table {
+  min-width: 1180px;
+}
+
+.source-table {
+  min-width: 860px;
+}
+
+.longlist-table td:nth-child(5) strong,
+.longlist-table td:nth-child(5) span {
+  display: block;
+}
+
+.longlist-table td:nth-child(5) strong {
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+}
+
+.longlist-table td:nth-child(5) span {
+  margin-top: 6px;
+}
+
 .research-table td:nth-child(3) {
   background: var(--green-soft);
   color: var(--green);
@@ -1270,6 +1292,112 @@ h1 {
   gap: 18px;
 }
 
+.asset-plan-grid,
+.exclusion-grid,
+.safety-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.asset-plan-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.exclusion-grid,
+.safety-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.asset-plan-card,
+.exclusion-card,
+.safety-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, var(--soft-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
+}
+
+.asset-plan-card h3,
+.exclusion-card h3,
+.safety-card h2 {
+  margin-bottom: 14px;
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.asset-plan-card dl,
+.safety-card dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.asset-plan-card dt,
+.safety-card dt {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.asset-plan-card dd,
+.safety-card dd,
+.exclusion-card p,
+.exclusion-card small {
+  margin: 3px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.exclusion-card small {
+  display: block;
+}
+
+.status-pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.status-shortlist,
+.confidence-high {
+  border-color: rgba(47, 125, 92, 0.24);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.status-backup,
+.confidence-medium {
+  border-color: rgba(183, 119, 47, 0.28);
+  background: rgba(183, 119, 47, 0.1);
+  color: #8b561f;
+}
+
+.status-watchlist,
+.confidence-low {
+  border-color: rgba(177, 75, 98, 0.28);
+  background: rgba(177, 75, 98, 0.1);
+  color: var(--rose);
+}
+
+.status-exclude {
+  border-color: rgba(89, 99, 111, 0.22);
+  background: #f1f2f4;
+  color: #59636f;
+}
+
 .source-panel {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -1302,6 +1430,9 @@ code {
   .generated-route,
   .rank-grid,
   .logistics-grid,
+  .asset-plan-grid,
+  .exclusion-grid,
+  .safety-grid,
   .source-panel {
     grid-template-columns: 1fr;
   }

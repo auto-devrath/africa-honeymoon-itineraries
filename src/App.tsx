@@ -2,9 +2,13 @@ import { useMemo, useState } from 'react';
 import './App.css';
 import {
   concepts,
+  assetPlans,
   costResearch,
   logistics,
+  routeCandidates,
+  safetyChecks,
   sourceReport,
+  sourceNotes,
   tripBrief,
   type ConceptId,
   type ItineraryConcept,
@@ -539,6 +543,33 @@ function CostingView() {
           </table>
         </div>
       </section>
+      <section className="section-split">
+        <div className="section-heading">
+          <p className="eyebrow">Assets</p>
+          <h2>Use points and memberships as levers, not constraints.</h2>
+        </div>
+        <div className="asset-plan-grid">
+          {assetPlans.map((item) => (
+            <article className="asset-plan-card" key={item.asset}>
+              <h3>{item.asset}</h3>
+              <dl>
+                <div>
+                  <dt>Best use</dt>
+                  <dd>{item.bestUse}</dd>
+                </div>
+                <div>
+                  <dt>Avoid</dt>
+                  <dd>{item.avoid}</dd>
+                </div>
+                <div>
+                  <dt>Next action</dt>
+                  <dd>{item.action}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
@@ -702,6 +733,53 @@ function CompareView() {
 
   return (
     <main className="content-grid top-content">
+      <section className="section-split research-intro">
+        <div className="section-heading">
+          <p className="eyebrow">Longlist</p>
+          <h2>What was considered, shortlisted, or ruled out.</h2>
+        </div>
+        <p>
+          The original brief asked for East Africa, West Africa, Namibia, Serengeti, Masai Mara,
+          Zambia, safety screening, and South Africa as a likely separate trip. This layer makes
+          those choices visible instead of hiding them behind three polished concepts.
+        </p>
+      </section>
+
+      <section className="compare-table-wrap">
+        <div className="table-scroll">
+          <table className="planning-table longlist-table">
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Status</th>
+                <th>Safari</th>
+                <th>Companion wonder</th>
+                <th>October / safety / budget read</th>
+                <th>Verdict</th>
+              </tr>
+            </thead>
+            <tbody>
+              {routeCandidates.map((route) => (
+                <tr key={route.name}>
+                  <td>{route.name}</td>
+                  <td>
+                    <span className={`status-pill status-${route.status.toLowerCase()}`}>{route.status}</span>
+                  </td>
+                  <td>{route.safari}</td>
+                  <td>{route.companion}</td>
+                  <td>
+                    <strong>{route.octoberFit}</strong>
+                    <span>{route.safetyFit}</span>
+                    <span>{route.budgetFit}</span>
+                  </td>
+                  <td>{route.verdict}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section className="compare-table-wrap">
         <div className="section-heading">
           <p className="eyebrow">Route Choice</p>
@@ -756,6 +834,25 @@ function CompareView() {
           </article>
         ))}
       </section>
+
+      <section className="section-split">
+        <div className="section-heading">
+          <p className="eyebrow">Why Not</p>
+          <h2>The exclusions are part of the recommendation.</h2>
+        </div>
+        <div className="exclusion-grid">
+          {routeCandidates
+            .filter((route) => route.status === 'Exclude' || route.status === 'Watchlist')
+            .map((route) => (
+              <article className="exclusion-card" key={`exclude-${route.name}`}>
+                <span className={`status-pill status-${route.status.toLowerCase()}`}>{route.status}</span>
+                <h3>{route.name}</h3>
+                <p>{route.verdict}</p>
+                <small>{route.safetyFit}</small>
+              </article>
+            ))}
+        </div>
+      </section>
     </main>
   );
 }
@@ -763,6 +860,39 @@ function CompareView() {
 function LogisticsView() {
   return (
     <main className="content-grid top-content">
+      <section className="section-split research-intro">
+        <div className="section-heading">
+          <p className="eyebrow">Risk Screen</p>
+          <h2>Safety is a route-selection criterion, not a footnote.</h2>
+        </div>
+        <p>
+          These notes are planning filters, not legal or medical advice. Before deposits, recheck
+          official travel advice, entry rules, yellow-fever routing triggers, and malaria guidance.
+        </p>
+      </section>
+
+      <section className="safety-grid">
+        {safetyChecks.map((item) => (
+          <article className="safety-card" key={item.route}>
+            <h2>{item.route}</h2>
+            <dl>
+              <div>
+                <dt>Main risks</dt>
+                <dd>{item.risks}</dd>
+              </div>
+              <div>
+                <dt>Mitigations</dt>
+                <dd>{item.mitigations}</dd>
+              </div>
+              <div>
+                <dt>Decision</dt>
+                <dd>{item.decision}</dd>
+              </div>
+            </dl>
+          </article>
+        ))}
+      </section>
+
       <section className="logistics-grid">
         {logistics.map((group) => (
           <article className="logistics-card" key={group.title}>
@@ -783,6 +913,37 @@ function LogisticsView() {
           <p>{sourceReport.completed}</p>
         </div>
         <code>{sourceReport.path}</code>
+      </section>
+
+      <section className="compare-table-wrap">
+        <div className="section-heading">
+          <p className="eyebrow">Confidence</p>
+          <h2>What still needs live verification.</h2>
+        </div>
+        <div className="table-scroll">
+          <table className="planning-table source-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Confidence</th>
+                <th>Evidence</th>
+                <th>Next check</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sourceNotes.map((note) => (
+                <tr key={note.area}>
+                  <td>{note.area}</td>
+                  <td>
+                    <span className={`status-pill confidence-${note.confidence.toLowerCase()}`}>{note.confidence}</span>
+                  </td>
+                  <td>{note.evidence}</td>
+                  <td>{note.nextCheck}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   );
