@@ -1,6 +1,6 @@
 # October Africa Honeymoon
 
-Interactive React/Vite site for comparing three October honeymoon itinerary concepts from the Gemini Deep Research report:
+Interactive React/Vite decision workspace for comparing an October Africa honeymoon longlist and three buildable itinerary concepts from the research reports:
 
 - Egypt + Kenya
 - Namibia + Victoria Falls

@@ -125,11 +125,11 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'Use Egypt for depth and texture, Kenya for the once-in-a-lifetime wildlife note, and keep the whole trip from feeling like a packaged circuit.',
     mood: 'Monuments, candlelit Nile dinners, Mara dawn drives',
-    image: './generated/route-egypt-kenya.png',
+    image: egyptGallery[0],
     gallery: egyptGallery,
-    costLabel: 'NZ$9,200-10,400 pp',
-    costMin: 9200,
-    costMax: 10400,
+    costLabel: 'NZ$9,000-10,800 pp',
+    costMin: 9000,
+    costMax: 10800,
     duration: '14-16 days',
     transit: 'Moderate',
     safariDays: '3-4 days',
@@ -285,20 +285,20 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'This is the cleanest choice if you want fewer museums, more awe, and a route that feels visually extraordinary every second day.',
     mood: 'Desert silence, flightseeing, waterfall mist, river sundowners',
-    image: './generated/route-namibia-victoria.png',
+    image: namibiaGallery[0],
     gallery: namibiaGallery,
-    costLabel: 'NZ$9,000-10,800 pp',
-    costMin: 9000,
-    costMax: 10800,
+    costLabel: 'NZ$8,900-11,300 pp',
+    costMin: 8900,
+    costMax: 11300,
     duration: '14-15 days',
-    transit: 'Low',
+    transit: 'Moderate',
     safariDays: '2-3 days',
     culturalWonder: 'Desert communities and colonial-era Swakopmund/Windhoek texture',
     naturalWonder: 'Sossusvlei, Deadvlei, Victoria Falls, Chobe River',
-    safariBase: 'Victoria Falls with Chobe day trip and Zambezi drives',
-    route: ['London', 'Doha', 'Windhoek', 'Sossusvlei', 'Swakopmund', 'Victoria Falls', 'London'],
+    safariBase: 'Victoria Falls with Chobe day trip and Zambezi river activities',
+    route: ['London', 'Windhoek', 'Sossusvlei', 'Swakopmund', 'Victoria Falls', 'London'],
     assetFocus: [
-      'Avios into Windhoek via Doha if award space is kind',
+      'Avios for London-Africa legs only if award space and taxes beat cash',
       'Accor Plus in Windhoek and Victoria Falls/Mantis inventory',
       'Cash for desert lodges and high-quality transfers',
     ],
@@ -308,7 +308,7 @@ export const concepts: ItineraryConcept[] = [
       {
         label: 'Flights and regional hop',
         amount: 1500,
-        detail: 'Avios for long haul where useful; protect Windhoek-Victoria Falls routing early.',
+        detail: 'Avios for long haul where useful; protect the Windhoek-Victoria Falls bridge early.',
       },
       {
         label: 'Namibia landscapes',
@@ -434,7 +434,7 @@ export const concepts: ItineraryConcept[] = [
     headlineDetail:
       'Choose this when you want the most iconic story and accept that it needs careful flight buffers to stay elegant.',
     mood: 'Ancient stone, rainforest spray, helicopter views, Zambezi sunsets',
-    image: './generated/route-egypt-victoria.png',
+    image: victoriaGallery[0],
     gallery: victoriaGallery,
     costLabel: 'NZ$10,900-12,000 pp',
     costMin: 10900,
@@ -640,12 +640,12 @@ export const routeCandidates: RouteCandidate[] = [
   {
     name: 'Namibia + Victoria Falls / Chobe',
     status: 'Shortlist',
-    safari: 'Chobe or Zambezi day safaris, 1-3 days',
+    safari: 'Chobe day safari or Zambezi wildlife cruise, 1-3 days',
     companion: 'Sossusvlei, Deadvlei, Swakopmund, Victoria Falls',
     octoberFit: 'Excellent wildlife visibility, but hot and dry.',
     safetyFit: 'Generally stable; road safety and urban opportunistic crime are the main watchouts.',
     budgetFit: 'Good if transfers are planned and lodge splurges are selective.',
-    verdict: 'Best natural-wonder route and current frontrunner if heat tolerance is acceptable.',
+    verdict: 'Best natural-wonder route if heat tolerance is acceptable.',
   },
   {
     name: 'Zambia / Victoria Falls + South Luangwa',
@@ -702,7 +702,7 @@ export const routeCandidates: RouteCandidate[] = [
 export const assetPlans: AssetPlan[] = [
   {
     asset: '200,000 Avios',
-    bestUse: 'Use for the most expensive UK-Africa long-haul legs, especially BA/Qatar routings to Nairobi, Cairo, Doha, Windhoek, or Victoria Falls gateways.',
+    bestUse: 'Use for the most expensive UK-Africa long-haul legs, especially BA/Qatar or partner routings to Nairobi, Cairo, Windhoek, or Victoria Falls gateways.',
     avoid: 'Do not force multi-stop awards that create risky separate tickets or awkward overnight transits.',
     action: 'Check award seats 355-361 days out, compare taxes/fees against cash fares, and treat Avios as a comfort/budget lever rather than a route dictator.',
   },
@@ -763,7 +763,7 @@ export const sourceNotes: SourceNote[] = [
   {
     area: 'Safety',
     confidence: 'Medium',
-    evidence: 'Research used official-advisory style screening and ruled out Ethiopia/Jordan-like risk profiles.',
+    evidence: 'Research used official-advisory style screening and ruled out Ethiopia despite its Jordan-like cultural appeal.',
     nextCheck: 'Recheck FCDO country pages immediately before deposits and again before final payment.',
   },
   {

@@ -24,28 +24,28 @@ const detailedCosts: Record<
   Array<{ label: string; value: string; note: string; tone: 'flight' | 'stay' | 'safari' | 'tour' | 'admin' | 'buffer' }>
 > = {
   'egypt-kenya': [
-    { label: 'Flights', value: 'NZ$1.1k-1.6k', note: 'Avios for outer legs; pay Cairo-Nairobi bridge', tone: 'flight' },
-    { label: 'Accommodation', value: 'NZ$2.4k-3.2k', note: 'Cairo, Luxor, Nairobi, 3-night Mara lodge share', tone: 'stay' },
-    { label: 'Safari', value: 'NZ$3.7k-4.8k', note: '3-4 days Mara, fees, meals, drives, transfer', tone: 'safari' },
-    { label: 'Private guides', value: 'NZ$1.0k-1.5k', note: 'Giza, Saqqara, Luxor West Bank, Karnak', tone: 'tour' },
-    { label: 'Visas + health', value: 'NZ$250-450', note: 'Egypt, Kenya eTA, malaria clinic buffer', tone: 'admin' },
-    { label: 'Honeymoon buffer', value: 'NZ$800-1.1k', note: 'Spa, rooftops, tips, delay cushion', tone: 'buffer' },
+    { label: 'Flights', value: 'NZ$1.1k-1.4k', note: 'Avios for outer legs; pay Cairo-Nairobi bridge', tone: 'flight' },
+    { label: 'Accommodation', value: 'NZ$2.2k-2.7k', note: 'Cairo, Luxor, Nairobi, 3-night Mara lodge share', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$3.5k-4.1k', note: '3-4 days Mara, fees, meals, drives, transfer', tone: 'safari' },
+    { label: 'Private guides', value: 'NZ$900-1.2k', note: 'Giza, Saqqara, Luxor West Bank, Karnak', tone: 'tour' },
+    { label: 'Visas + health', value: 'NZ$250-350', note: 'Egypt, Kenya eTA, malaria clinic buffer', tone: 'admin' },
+    { label: 'Honeymoon buffer', value: 'NZ$800-1.0k', note: 'Spa, rooftops, tips, delay cushion', tone: 'buffer' },
   ],
   'namibia-victoria': [
-    { label: 'Flights', value: 'NZ$1.3k-1.9k', note: 'UK-Windhoek/Falls routing; Avios if Qatar space works', tone: 'flight' },
-    { label: 'Accommodation', value: 'NZ$3.0k-4.0k', note: 'Windhoek, desert lodge, coast, Victoria Falls base', tone: 'stay' },
-    { label: 'Safari', value: 'NZ$350-900', note: 'Chobe day trip or light Zambezi wildlife layer', tone: 'safari' },
-    { label: 'Experiences', value: 'NZ$1.5k-2.4k', note: 'Sossusvlei, Sandwich Harbour, helicopter/balloon choice', tone: 'tour' },
-    { label: 'Transfers', value: 'NZ$1.2k-2.0k', note: 'Guided desert/coast movement to avoid tired self-drive', tone: 'admin' },
-    { label: 'Honeymoon buffer', value: 'NZ$900-1.3k', note: 'Tips, visas, better dinners, FX movement', tone: 'buffer' },
+    { label: 'Flights', value: 'NZ$1.5k-2.2k', note: 'UK-Windhoek/Falls routing; Avios only if award space beats cash', tone: 'flight' },
+    { label: 'Accommodation', value: 'NZ$3.0k-3.8k', note: 'Windhoek, desert lodge, coast, Victoria Falls base', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$350-800', note: 'Chobe day trip or light Zambezi wildlife cruise', tone: 'safari' },
+    { label: 'Experiences', value: 'NZ$1.2k-1.8k', note: 'Sossusvlei, Sandwich Harbour, helicopter/balloon choice', tone: 'tour' },
+    { label: 'Transfers', value: 'NZ$1.2k-1.7k', note: 'Guided desert/coast movement to avoid tired self-drive', tone: 'admin' },
+    { label: 'Honeymoon buffer', value: 'NZ$800-1.0k', note: 'Tips, visas, better dinners, FX movement', tone: 'buffer' },
   ],
   'egypt-victoria': [
     { label: 'Flights', value: 'NZ$2.2k-3.0k', note: 'Hardest bridge: Egypt to Falls needs protection', tone: 'flight' },
-    { label: 'Accommodation', value: 'NZ$3.1k-4.1k', note: 'Egypt city stays plus romantic Falls base', tone: 'stay' },
-    { label: 'Safari', value: 'NZ$350-900', note: 'Chobe day only; no lodge-heavy safari block', tone: 'safari' },
-    { label: 'Private guides', value: 'NZ$1.2k-1.8k', note: 'Egyptologist days plus Falls guiding', tone: 'tour' },
-    { label: 'Falls add-ons', value: 'NZ$1.2k-1.9k', note: 'Devil’s Pool, helicopter, cruise, park fees', tone: 'tour' },
-    { label: 'Admin + buffer', value: 'NZ$1.0k-1.5k', note: 'Visas, health, tips, missed-connection cushion', tone: 'buffer' },
+    { label: 'Accommodation', value: 'NZ$3.1k-4.0k', note: 'Egypt city stays plus romantic Falls base', tone: 'stay' },
+    { label: 'Safari', value: 'NZ$350-800', note: 'Chobe day only; no lodge-heavy safari block', tone: 'safari' },
+    { label: 'Private guides', value: 'NZ$1.1k-1.5k', note: 'Egyptologist days plus Falls guiding', tone: 'tour' },
+    { label: 'Falls add-ons', value: 'NZ$1.0k-1.5k', note: 'Devil’s Pool, helicopter, cruise, park fees', tone: 'tour' },
+    { label: 'Admin + buffer', value: 'NZ$900-1.2k', note: 'Visas, health, tips, missed-connection cushion', tone: 'buffer' },
   ],
 };
 
@@ -66,7 +66,7 @@ function Hero({
     <header
       className="hero"
       style={{
-        backgroundImage: 'linear-gradient(105deg, rgba(5, 8, 11, 0.8), rgba(5, 8, 11, 0.4) 46%, rgba(5, 8, 11, 0.04)), url(./generated/africa-honeymoon-hero.png)',
+        backgroundImage: 'linear-gradient(105deg, rgba(5, 8, 11, 0.8), rgba(5, 8, 11, 0.4) 46%, rgba(5, 8, 11, 0.04)), url(https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1800&q=82)',
       }}
     >
       <nav className="topbar" aria-label="Trip views">
@@ -119,7 +119,7 @@ function Hero({
       </div>
 
       <aside className="hero-card" aria-label="Active itinerary">
-        <p>Current frontrunner</p>
+        <p>Selected route</p>
         <h2>{activeConcept.title}</h2>
         <span>{activeConcept.pairing}</span>
         <small>{activeConcept.mood}</small>
@@ -178,9 +178,9 @@ function DecisionPath({
         <p className="eyebrow">Start Here</p>
         <h2>Use this like a decision workspace, not a brochure.</h2>
         <p>
-          The goal is to end with one route you both trust. Right now the working frontrunner is
-          <strong> {activeConcept.pairing}</strong>, because it best balances wonder, budget, and
-          the safari cap.
+          The goal is to end with one route you both trust. Use
+          <strong> {activeConcept.pairing}</strong> as the working case, then compare it against
+          the budget, safety, transit, and safari-cap tradeoffs.
         </p>
       </div>
       <div className="path-step-grid">
@@ -437,7 +437,7 @@ function DecisionSummary() {
         'Most cinematic and lowest-safari-fatigue option: dunes, Deadvlei, Swakopmund, Falls, and a single Chobe wildlife hit.',
     },
     {
-      label: 'Keep as backups, not frontrunners',
+      label: 'Keep as backups, not lead options',
       route: 'Tanzania / Zambia / West Africa',
       reason:
         'Tanzania is strong but more safari-led, Zambia is excellent but hot/logistically sharper in early October, and West Africa fails the first-safari/safety-confidence bar.',
@@ -621,7 +621,7 @@ function ItineraryGenerator() {
         let score = 0;
 
         if (budget === 'value') score += 13000 - concept.costMax;
-        if (budget === 'target') score += concept.costMax <= 10800 ? 2800 : 1200;
+        if (budget === 'target') score += concept.costMax <= 12000 ? 2800 : 1200;
         if (budget === 'stretch') score += concept.scores.Romance * 700;
 
         if (pace === 'calm') score += concept.transit === 'Low' ? 3600 : concept.transit === 'Moderate' ? 1600 : -900;
