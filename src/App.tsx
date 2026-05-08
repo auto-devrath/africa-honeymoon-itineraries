@@ -4,7 +4,9 @@ import {
   concepts,
   assetPlans,
   costResearch,
+  flightWatchlist,
   logistics,
+  rewardWatchlist,
   routeCandidates,
   safetyChecks,
   sourceReport,
@@ -540,6 +542,15 @@ function ConceptDetail({ concept }: { concept: ItineraryConcept }) {
 }
 
 function CostingView() {
+  const groupedFlightLinks = flightWatchlist.reduce<Record<string, typeof flightWatchlist>>((groups, item) => {
+    groups[item.route] = [...(groups[item.route] ?? []), item];
+    return groups;
+  }, {});
+  const groupedRewardLinks = rewardWatchlist.reduce<Record<string, typeof rewardWatchlist>>((groups, item) => {
+    groups[item.route] = [...(groups[item.route] ?? []), item];
+    return groups;
+  }, {});
+
   return (
     <main className="content-grid top-content">
       <section className="section-split research-intro">
@@ -604,6 +615,76 @@ function CostingView() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section-split">
+        <div className="section-heading">
+          <p className="eyebrow">Flight Alerts</p>
+          <h2>Google Flights searches to track from London.</h2>
+        </div>
+        <div className="decision-panel">
+          <ul className="plain-list">
+            <li>Use the signed-in Google account: divyan.devs@gmail.com.</li>
+            <li>Open each search, confirm two travellers and cabin, then toggle Track prices.</li>
+            <li>Google sends alert emails when prices move; use Tuesday and Friday as the manual review rhythm.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="asset-plan-grid">
+        {Object.entries(groupedFlightLinks).map(([route, links]) => (
+          <article className="asset-plan-card" key={route}>
+            <h3>{route}</h3>
+            <dl>
+              {links.map((item) => (
+                <div key={`${item.route}-${item.leg}`}>
+                  <dt>{item.leg}</dt>
+                  <dd>
+                    {item.timing}. {item.why}{' '}
+                    <a href={item.googleFlightsUrl} target="_blank" rel="noreferrer">
+                      Open Google Flights
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        ))}
+      </section>
+
+      <section className="section-split">
+        <div className="section-heading">
+          <p className="eyebrow">Reward Seats</p>
+          <h2>Mix Avios checks into the same watchlist.</h2>
+        </div>
+        <div className="decision-panel">
+          <ul className="plain-list">
+            <li>Google Flights tracks cash fares only; reward seats need BA/Qatar account searches or a reward-seat alert tool.</li>
+            <li>For every high-priority leg, compare cash fare versus Avios plus taxes before committing points.</li>
+            <li>Use the twice-weekly Tuesday/Friday review to check both cash alerts and reward-seat availability.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="asset-plan-grid">
+        {Object.entries(groupedRewardLinks).map(([route, links]) => (
+          <article className="asset-plan-card" key={`reward-${route}`}>
+            <h3>{route}</h3>
+            <dl>
+              {links.map((item) => (
+                <div key={`${item.route}-${item.leg}`}>
+                  <dt>{item.leg} / {item.priority}</dt>
+                  <dd>
+                    {item.rewardPath} {item.cashCompare}{' '}
+                    <a href={item.actionUrl} target="_blank" rel="noreferrer">
+                      Open reward check
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        ))}
       </section>
     </main>
   );

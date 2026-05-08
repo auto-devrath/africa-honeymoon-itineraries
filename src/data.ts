@@ -86,6 +86,23 @@ export type SourceNote = {
   nextCheck: string;
 };
 
+export type FlightWatchItem = {
+  route: string;
+  leg: string;
+  timing: string;
+  why: string;
+  googleFlightsUrl: string;
+};
+
+export type RewardWatchItem = {
+  route: string;
+  leg: string;
+  priority: 'High' | 'Medium' | 'Low';
+  rewardPath: string;
+  cashCompare: string;
+  actionUrl: string;
+};
+
 export const tripBrief = {
   title: 'Africa Honeymoon Studio',
   subtitle:
@@ -775,20 +792,164 @@ export const sourceNotes: SourceNote[] = [
   {
     area: 'Flight prices',
     confidence: 'Low',
-    evidence: 'The site uses static planning ranges only; no live Google Flights tracker or fare API is connected.',
-    nextCheck: 'Run live London-origin searches in Google Flights, then set Google account price alerts or connect a third-party fare API if automated refreshes are needed.',
+    evidence: 'The site now includes Google Flights search links for the route legs, but no live fare API is connected.',
+    nextCheck: 'Set alerts while signed in as divyan.devs@gmail.com; Google emails on price changes, with Tuesday/Friday manual reviews for cadence.',
   },
   {
     area: 'Avios',
     confidence: 'Medium',
-    evidence: 'Research identifies BA/Qatar as the likely best value, but award seats are inventory-dependent.',
-    nextCheck: 'Run live BA/Qatar reward searches for the exact October dates before committing to any route.',
+    evidence: 'The site now marks high/medium/low reward-check legs, but BA/Qatar availability and taxes must be searched while signed in.',
+    nextCheck: 'During Tuesday/Friday reviews, compare each high-priority leg against its Google Flights cash alert before spending Avios.',
   },
   {
     area: 'Kindred and Accor',
     confidence: 'Medium',
     evidence: 'Useful in hubs and selected branded hotels, weak in remote safari/desert locations.',
     nextCheck: 'Check actual Kindred homes and Accor cancellable rates only after selecting the route.',
+  },
+];
+
+const googleFlightsSearch = (query: string) =>
+  `https://www.google.com/travel/flights?q=${encodeURIComponent(query)}`;
+
+export const flightWatchlist: FlightWatchItem[] = [
+  {
+    route: 'Egypt + Kenya',
+    leg: 'London to Cairo',
+    timing: 'Target departure: 2 Oct 2026',
+    why: 'Outbound culture leg; track cash fares before deciding whether to spend Avios.',
+    googleFlightsUrl: googleFlightsSearch('Flights from London to Cairo on 2 October 2026'),
+  },
+  {
+    route: 'Egypt + Kenya',
+    leg: 'Cairo to Nairobi',
+    timing: 'Target bridge: 9 Oct 2026',
+    why: 'This is the budget-sensitive bridge into the Mara section.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Cairo to Nairobi on 9 October 2026'),
+  },
+  {
+    route: 'Egypt + Kenya',
+    leg: 'Nairobi to London',
+    timing: 'Target return: 18 Oct 2026',
+    why: 'Return leg where Avios may help if cash fares are ugly.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Nairobi to London on 18 October 2026'),
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'London to Windhoek',
+    timing: 'Target departure: 2 Oct 2026',
+    why: 'Core test for whether Namibia stays inside budget without awkward points logic.',
+    googleFlightsUrl: googleFlightsSearch('Flights from London to Windhoek on 2 October 2026'),
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'Windhoek to Victoria Falls',
+    timing: 'Target bridge: 11 Oct 2026',
+    why: 'The fragile regional hop; compare Victoria Falls, Livingstone, and protected connections.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Windhoek to Victoria Falls on 11 October 2026'),
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'Victoria Falls to London',
+    timing: 'Target return: 18 Oct 2026',
+    why: 'Return pricing decides whether Falls remains a neat finale or needs a Johannesburg buffer.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Victoria Falls to London on 18 October 2026'),
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'London to Cairo',
+    timing: 'Target departure: 2 Oct 2026',
+    why: 'Same Egypt entry test; reuse the alert if Egypt remains in either leading route.',
+    googleFlightsUrl: googleFlightsSearch('Flights from London to Cairo on 2 October 2026'),
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'Cairo to Victoria Falls or Livingstone',
+    timing: 'Target bridge: 10 Oct 2026',
+    why: 'Hardest routing in the whole shortlist; alert both Falls gateways before trusting the route.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Cairo to Victoria Falls or Livingstone on 10 October 2026'),
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'Victoria Falls to London',
+    timing: 'Target return: 18 Oct 2026',
+    why: 'Return pricing is the main pressure point on the high-complexity option.',
+    googleFlightsUrl: googleFlightsSearch('Flights from Victoria Falls to London on 18 October 2026'),
+  },
+];
+
+export const rewardWatchlist: RewardWatchItem[] = [
+  {
+    route: 'Egypt + Kenya',
+    leg: 'London to Cairo',
+    priority: 'Medium',
+    rewardPath: 'Check British Airways Club reward search first; then compare part-pay with Avios against cash.',
+    cashCompare: 'Use Avios only if taxes/fees do not erase the value versus a cheap cash fare.',
+    actionUrl: 'https://www.britishairways.com/travel/flightfinderhome/public/executive-club/spending-avios.page',
+  },
+  {
+    route: 'Egypt + Kenya',
+    leg: 'Cairo to Nairobi',
+    priority: 'Low',
+    rewardPath: 'Treat as cash-first unless a clean oneworld option appears without a long detour.',
+    cashCompare: 'Do not burn Avios on awkward connections just to use points.',
+    actionUrl: 'https://www.google.com/travel/flights?q=Flights%20from%20Cairo%20to%20Nairobi%20on%209%20October%202026',
+  },
+  {
+    route: 'Egypt + Kenya',
+    leg: 'Nairobi to London',
+    priority: 'High',
+    rewardPath: 'Check BA reward availability and Qatar Privilege Club Avios options before cash booking.',
+    cashCompare: 'This is one of the best places for the 200k Avios to reduce the long-haul cash hit.',
+    actionUrl: 'https://www.britishairways.com/travel/flightfinderhome/public/executive-club/spending-avios.page',
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'London to Windhoek',
+    priority: 'High',
+    rewardPath: 'Check Qatar Privilege Club and BA partner availability, but keep cash as the baseline.',
+    cashCompare: 'Only use Avios if the connection is clean and taxes/fees beat the tracked Google Flights cash fare.',
+    actionUrl: 'https://www.qatarairways.com/en/Privilege-Club/redeem-avios.html',
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'Windhoek to Victoria Falls',
+    priority: 'Low',
+    rewardPath: 'Cash-first regional bridge; reward options are likely weak or operationally awkward.',
+    cashCompare: 'Protect schedule reliability over theoretical points value.',
+    actionUrl: 'https://www.google.com/travel/flights?q=Flights%20from%20Windhoek%20to%20Victoria%20Falls%20on%2011%20October%202026',
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    leg: 'Victoria Falls to London',
+    priority: 'Medium',
+    rewardPath: 'Check Avios only if a clean partner path appears; otherwise price a Johannesburg buffer plus cash fare.',
+    cashCompare: 'This leg decides whether Falls works as a neat finale or needs a more conservative route.',
+    actionUrl: 'https://www.qatarairways.com/en/Privilege-Club/redeem-avios.html',
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'London to Cairo',
+    priority: 'Medium',
+    rewardPath: 'Same BA reward check as Egypt + Kenya; avoid duplicating alerts.',
+    cashCompare: 'Keep this as a shared Egypt entry watch item.',
+    actionUrl: 'https://www.britishairways.com/travel/flightfinderhome/public/executive-club/spending-avios.page',
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'Cairo to Victoria Falls or Livingstone',
+    priority: 'Low',
+    rewardPath: 'Cash-first; Avios is unlikely to be worth a long backtrack or separate-ticket risk.',
+    cashCompare: 'If this bridge prices badly, deprioritise the whole Egypt + Falls route.',
+    actionUrl: 'https://www.google.com/travel/flights?q=Flights%20from%20Cairo%20to%20Victoria%20Falls%20or%20Livingstone%20on%2010%20October%202026',
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    leg: 'Victoria Falls to London',
+    priority: 'Medium',
+    rewardPath: 'Check Qatar/partner Avios availability, then compare against the cash alert.',
+    cashCompare: 'Useful only if it avoids painful routing and keeps fees sensible.',
+    actionUrl: 'https://www.qatarairways.com/en/Privilege-Club/redeem-avios.html',
   },
 ];
 
