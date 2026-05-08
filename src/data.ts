@@ -103,6 +103,34 @@ export type RewardWatchItem = {
   actionUrl: string;
 };
 
+export type FlightDecisionCard = {
+  route: string;
+  bestGateways: string;
+  likelyAirlines: string;
+  aviosAngle: string;
+  cashFallback: string;
+  openJawOption: string;
+  rewardSeatConfidence: 'Easy' | 'Medium' | 'Hard';
+  flightRiskScore: 'Low' | 'Medium' | 'High';
+  regionalWarning: string;
+  checks: string[];
+};
+
+export type GatewayDecision = {
+  gateway: string;
+  quality: 'Smooth' | 'Good' | 'Useful' | 'Friction';
+  bestFor: string;
+  watchout: string;
+};
+
+export type CashAviosComparison = {
+  route: string;
+  likelyCashFare: string;
+  likelyAviosFees: string;
+  goodValueWhen: string;
+  cashCleanerWhen: string;
+};
+
 export const tripBrief = {
   title: 'Africa Honeymoon Studio',
   subtitle:
@@ -798,8 +826,8 @@ export const sourceNotes: SourceNote[] = [
   {
     area: 'Avios',
     confidence: 'Medium',
-    evidence: 'The site now marks high/medium/low reward-check legs, but BA/Qatar availability and taxes must be searched while signed in.',
-    nextCheck: 'During Tuesday/Friday reviews, compare each high-priority leg against its Google Flights cash alert before spending Avios.',
+    evidence: 'BA confirms Avios reward flights can cover BA and oneworld partners with cash taxes/fees; Qatar confirms BA/Qatar accounts can be linked to move Avios.',
+    nextCheck: 'Search BA and Qatar while signed in, then compare each high-priority reward leg against its Google Flights cash alert before spending Avios.',
   },
   {
     area: 'Kindred and Accor',
@@ -950,6 +978,147 @@ export const rewardWatchlist: RewardWatchItem[] = [
     rewardPath: 'Check Qatar/partner Avios availability, then compare against the cash alert.',
     cashCompare: 'Useful only if it avoids painful routing and keeps fees sensible.',
     actionUrl: 'https://www.qatarairways.com/en/Privilege-Club/redeem-avios.html',
+  },
+];
+
+export const flightDecisionCards: FlightDecisionCard[] = [
+  {
+    route: 'Egypt + Kenya',
+    bestGateways: 'London -> Cairo, then Cairo -> Nairobi, return Nairobi -> London.',
+    likelyAirlines:
+      'BA or Egyptair for Cairo, Egyptair/Kenya Airways for Cairo-Nairobi, BA/Qatar/Kenya Airways or partners for Nairobi-London.',
+    aviosAngle:
+      'Best used on Nairobi-London or a clean London-Cairo / Nairobi-London open jaw. Do not waste Avios on the Cairo-Nairobi bridge unless it is genuinely convenient.',
+    cashFallback:
+      'Pay cash for Cairo-Nairobi and compare cash vs Avios + fees on the two outer legs before choosing lodges.',
+    openJawOption:
+      'Test London -> Cairo and Nairobi -> London as a multi-city search; it avoids backtracking through Cairo.',
+    rewardSeatConfidence: 'Medium',
+    flightRiskScore: 'Medium',
+    regionalWarning:
+      'The Mara transfer or light aircraft is separate from the long-haul plan; budget it as safari logistics, not as Avios-covered flying.',
+    checks: [
+      'Search BA for London-Cairo and Nairobi-London rewards.',
+      'Search Qatar Privilege Club for Nairobi-London via Doha after linking BA/Qatar Avios.',
+      'Check Google Flights for Cairo-Nairobi cash fare and arrival time before holding the Mara lodge.',
+    ],
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    bestGateways: 'London -> Windhoek, then Windhoek -> Victoria Falls/Livingstone, return Victoria Falls/Livingstone or Johannesburg -> London.',
+    likelyAirlines:
+      'Qatar/Ethiopian/Lufthansa-family options to Windhoek; regional cash links via Johannesburg or direct/limited Victoria Falls/Livingstone services.',
+    aviosAngle:
+      'Use Avios only for a clean long-haul gateway if Qatar/BA partner space appears. This is not a route to force points onto regional hops.',
+    cashFallback:
+      'Treat cash as the baseline and use Avios only if it beats a sane one-stop fare without creating overnight friction.',
+    openJawOption:
+      'Test London -> Windhoek and Victoria Falls/Johannesburg -> London; Johannesburg may be the cleaner return if Falls awards are thin.',
+    rewardSeatConfidence: 'Hard',
+    flightRiskScore: 'Medium',
+    regionalWarning:
+      'Windhoek-Falls is the fragile link: services can be infrequent, expensive, or routed through Johannesburg, so protect the schedule with a buffer.',
+    checks: [
+      'Search Qatar/BA partner options into Windhoek and out of Victoria Falls/Johannesburg.',
+      'Compare Victoria Falls vs Livingstone as the Falls gateway before choosing the hotel side.',
+      'Price the Windhoek-Falls bridge before paying for desert lodges.',
+    ],
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    bestGateways: 'London -> Cairo, then Cairo -> Addis/Nairobi/Johannesburg -> Victoria Falls/Livingstone, return Falls/Johannesburg -> London.',
+    likelyAirlines:
+      'BA/Egyptair into Cairo; Ethiopian, Kenya Airways, or Johannesburg connections for the Falls bridge; Qatar/BA partner options for the return if available.',
+    aviosAngle:
+      'Use Avios for outer long-haul only if the routing is clean. The Egypt-Falls bridge should be cash-first because award availability is unlikely to solve the real bottleneck.',
+    cashFallback:
+      'If Cairo-Falls prices badly or forces risky separate tickets, downgrade this route behind Egypt + Kenya and Namibia + Falls.',
+    openJawOption:
+      'Test London -> Cairo and Victoria Falls/Livingstone/Johannesburg -> London; do not build this as a return to Cairo.',
+    rewardSeatConfidence: 'Hard',
+    flightRiskScore: 'High',
+    regionalWarning:
+      'This route has the most expensive and awkward intra-Africa bridge; add a transit night and yellow-fever-document check before committing.',
+    checks: [
+      'Search Cairo to Victoria Falls, Livingstone, and Johannesburg separately.',
+      'Check whether any transit country changes yellow fever certificate requirements.',
+      'Only hold Falls hotels after the bridge and return route are proven on cash fares.',
+    ],
+  },
+];
+
+export const gatewayDecisions: GatewayDecision[] = [
+  {
+    gateway: 'Cairo',
+    quality: 'Smooth',
+    bestFor: 'Egypt culture block and London entry.',
+    watchout: 'October heat and airport-to-city transfer friction; use private transfers.',
+  },
+  {
+    gateway: 'Nairobi',
+    quality: 'Smooth',
+    bestFor: 'Masai Mara access and a practical return gateway to London.',
+    watchout: 'Keep a buffer night before Mara or the international return.',
+  },
+  {
+    gateway: 'Kilimanjaro / JRO',
+    quality: 'Good',
+    bestFor: 'Northern Tanzania and Serengeti/Ngorongoro backups.',
+    watchout: 'Good safari gateway, weaker for non-safari culture; reward seats may be scarce.',
+  },
+  {
+    gateway: 'Dar es Salaam',
+    quality: 'Useful',
+    bestFor: 'Tanzania cash routings and possible Qatar/oneworld positioning.',
+    watchout: 'Often adds backtracking if the trip is not using Zanzibar or southern Tanzania.',
+  },
+  {
+    gateway: 'Windhoek',
+    quality: 'Good',
+    bestFor: 'Namibia landscapes and desert-road routing.',
+    watchout: 'Long-haul options are thinner than Nairobi/Cairo; compare cash before forcing Avios.',
+  },
+  {
+    gateway: 'Victoria Falls / Livingstone',
+    quality: 'Useful',
+    bestFor: 'Falls, Chobe day trip, Zambezi activities.',
+    watchout: 'Great destination gateway, weaker reward gateway; test both sides of the Falls.',
+  },
+  {
+    gateway: 'Lusaka',
+    quality: 'Friction',
+    bestFor: 'Zambia/South Luangwa watchlist routes.',
+    watchout: 'Adds a domestic or regional hop and more heat/logistics risk in early October.',
+  },
+  {
+    gateway: 'Johannesburg',
+    quality: 'Useful',
+    bestFor: 'Southern Africa positioning and rescue routings.',
+    watchout: 'Can make flight logistics cleaner, but pulls the trip toward a South Africa-style journey.',
+  },
+];
+
+export const cashAviosComparisons: CashAviosComparison[] = [
+  {
+    route: 'Egypt + Kenya',
+    likelyCashFare: 'Often the cleanest cash structure: London-Cairo, Cairo-Nairobi, Nairobi-London.',
+    likelyAviosFees: 'Use BA/Qatar searches for the outer legs; still pay taxes, fees, and the Cairo-Nairobi bridge.',
+    goodValueWhen: 'Nairobi-London cash fares are high and a clean BA/Qatar/partner reward exists.',
+    cashCleanerWhen: 'London-Cairo is cheap or Avios forces a worse connection than a normal cash fare.',
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    likelyCashFare: 'Expect higher variance because Windhoek and Falls are thinner gateways.',
+    likelyAviosFees: 'Potentially useful via Qatar/partners on long-haul, but regional hops are cash-first.',
+    goodValueWhen: 'A clean Windhoek or Johannesburg long-haul reward appears without a punishing overnight.',
+    cashCleanerWhen: 'The reward gets you near the region but leaves an expensive, risky separate ticket.',
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    likelyCashFare: 'Most fragile and likely highest total flight cost because of the Cairo-Falls bridge.',
+    likelyAviosFees: 'Use Avios only on London-Cairo or the return; the middle bridge remains the route test.',
+    goodValueWhen: 'Outer legs price badly in cash and the Cairo-Falls bridge is still reasonable.',
+    cashCleanerWhen: 'The bridge needs multiple stops, separate tickets, or an extra positioning city.',
   },
 ];
 

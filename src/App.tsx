@@ -4,7 +4,10 @@ import {
   concepts,
   assetPlans,
   costResearch,
+  cashAviosComparisons,
+  flightDecisionCards,
   flightWatchlist,
+  gatewayDecisions,
   logistics,
   rewardWatchlist,
   routeCandidates,
@@ -614,6 +617,130 @@ function CostingView() {
               </dl>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="section-split flight-decision-intro">
+        <div className="section-heading">
+          <p className="eyebrow">Flights & Avios</p>
+          <h2>Turn the route idea into a bookable flight plan.</h2>
+        </div>
+        <div className="decision-panel">
+          <ul className="plain-list">
+            <li>BA reward flights can use Avios on British Airways and oneworld partners, with taxes, fees, and carrier charges still paid in cash.</li>
+            <li>Qatar Privilege Club lets BA and Qatar accounts link so Avios can move between them, which matters for Doha routings into Africa.</li>
+            <li>Search open jaws before returns: London to the first gateway, then final gateway back to London.</li>
+            <li>Keep intra-Africa flights separate from the Avios plan; they are often the bottleneck for cost, frequency, and missed-connection risk.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="flight-card-grid" aria-label="Flight decision cards">
+        {flightDecisionCards.map((item) => (
+          <article className={`flight-card risk-${item.flightRiskScore.toLowerCase()}`} key={item.route}>
+            <div className="flight-card-head">
+              <p className="eyebrow">Route</p>
+              <h3>{item.route}</h3>
+              <div className="flight-badges">
+                <span>Reward seats: {item.rewardSeatConfidence}</span>
+                <span>Flight risk: {item.flightRiskScore}</span>
+              </div>
+            </div>
+            <dl>
+              <div>
+                <dt>Best gateways</dt>
+                <dd>{item.bestGateways}</dd>
+              </div>
+              <div>
+                <dt>Likely airlines</dt>
+                <dd>{item.likelyAirlines}</dd>
+              </div>
+              <div>
+                <dt>Avios angle</dt>
+                <dd>{item.aviosAngle}</dd>
+              </div>
+              <div>
+                <dt>Cash fallback</dt>
+                <dd>{item.cashFallback}</dd>
+              </div>
+              <div>
+                <dt>Open-jaw option</dt>
+                <dd>{item.openJawOption}</dd>
+              </div>
+              <div>
+                <dt>Regional flight warning</dt>
+                <dd>{item.regionalWarning}</dd>
+              </div>
+            </dl>
+            <div className="flight-checks">
+              <strong>What to check before booking</strong>
+              <ul>
+                {item.checks.map((check) => (
+                  <li key={check}>{check}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="compare-table-wrap">
+        <div className="section-heading compact-heading">
+          <p className="eyebrow">Cash vs Avios</p>
+          <h2>Use points only where they solve the real fare problem.</h2>
+        </div>
+        <div className="table-scroll">
+          <table className="planning-table avios-table">
+            <thead>
+              <tr>
+                <th>Route</th>
+                <th>Likely cash fare pattern</th>
+                <th>Likely Avios + fees pattern</th>
+                <th>Good Avios value when</th>
+                <th>Cash is cleaner when</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cashAviosComparisons.map((item) => (
+                <tr key={item.route}>
+                  <td>{item.route}</td>
+                  <td>{item.likelyCashFare}</td>
+                  <td>{item.likelyAviosFees}</td>
+                  <td>{item.goodValueWhen}</td>
+                  <td>{item.cashCleanerWhen}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="compare-table-wrap">
+        <div className="section-heading compact-heading">
+          <p className="eyebrow">Gateway Quality</p>
+          <h2>Pick gateways that make the honeymoon smoother.</h2>
+        </div>
+        <div className="table-scroll">
+          <table className="planning-table gateway-table">
+            <thead>
+              <tr>
+                <th>Gateway</th>
+                <th>Quality</th>
+                <th>Best for</th>
+                <th>Watchout</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gatewayDecisions.map((item) => (
+                <tr key={item.gateway}>
+                  <td>{item.gateway}</td>
+                  <td><span className={`quality-pill quality-${item.quality.toLowerCase()}`}>{item.quality}</span></td>
+                  <td>{item.bestFor}</td>
+                  <td>{item.watchout}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
