@@ -773,6 +773,12 @@ export const sourceNotes: SourceNote[] = [
     nextCheck: 'Replace planning ranges with real quotes for flights, safari camps, and transfers once dates are fixed.',
   },
   {
+    area: 'Flight prices',
+    confidence: 'Low',
+    evidence: 'The site uses static planning ranges only; no live Google Flights tracker or fare API is connected.',
+    nextCheck: 'Run live London-origin searches in Google Flights, then set Google account price alerts or connect a third-party fare API if automated refreshes are needed.',
+  },
+  {
     area: 'Avios',
     confidence: 'Medium',
     evidence: 'Research identifies BA/Qatar as the likely best value, but award seats are inventory-dependent.',
