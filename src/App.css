@@ -1569,6 +1569,155 @@ h1 {
   align-items: center;
 }
 
+.accommodation-intro {
+  align-items: start;
+}
+
+.accommodation-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.accommodation-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  background: var(--surface-solid);
+  box-shadow: var(--soft-shadow);
+}
+
+.accommodation-card-head {
+  max-width: 940px;
+  margin-bottom: 20px;
+}
+
+.accommodation-card h3 {
+  margin-bottom: 0;
+  color: var(--ink);
+  font-size: clamp(1.24rem, 2vw, 1.75rem);
+  line-height: 1.12;
+}
+
+.accommodation-summary {
+  margin: 0 0 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.accommodation-summary div,
+.stay-tier,
+.safari-cost-box {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfbfc;
+}
+
+.accommodation-summary div {
+  padding: 14px;
+}
+
+.accommodation-summary dt,
+.safari-cost-box strong {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 820;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.accommodation-summary dd {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.52;
+}
+
+.stay-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.stay-tier {
+  padding: 16px;
+}
+
+.stay-tier span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 840;
+  text-transform: uppercase;
+}
+
+.stay-tier strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.stay-tier p,
+.stay-tier small {
+  display: block;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+.stay-tier small {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.accommodation-table {
+  min-width: 800px;
+}
+
+.safari-cost-box {
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.safari-cost-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.safari-cost-box li {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(140px, 0.65fr) minmax(0, 1.3fr);
+  gap: 12px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.safari-cost-box span {
+  color: var(--ink);
+  font-weight: 780;
+}
+
+.safari-cost-box em {
+  color: var(--green);
+  font-style: normal;
+  font-weight: 760;
+}
+
+.safari-cost-box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 code {
   display: block;
   overflow-wrap: anywhere;
@@ -1596,6 +1745,8 @@ code {
   .rank-grid,
   .logistics-grid,
   .asset-plan-grid,
+  .accommodation-summary,
+  .stay-tier-grid,
   .flight-card-grid,
   .exclusion-grid,
   .safety-grid,
@@ -1614,6 +1765,10 @@ code {
 
   .cost-research-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .safari-cost-box li {
+    grid-template-columns: 1fr;
   }
 
   .hero-card {
@@ -1681,6 +1836,8 @@ code {
   .path-step-grid,
   .tour-grid,
   .cost-research-grid,
+  .accommodation-summary,
+  .stay-tier-grid,
   .cost-tile-grid {
     grid-template-columns: 1fr;
   }
@@ -1707,6 +1864,7 @@ code {
   .decision-path-intro,
   .path-step,
   .concept-strip-wrap,
+  .accommodation-card,
   .cost-tile-panel,
   .timeline-panel,
   .budget-panel,

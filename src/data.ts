@@ -131,6 +131,31 @@ export type CashAviosComparison = {
   cashCleanerWhen: string;
 };
 
+export type AccommodationPlan = {
+  route: string;
+  strategy: string;
+  nightlyTarget: string;
+  bestSplurge: string;
+  avoid: string;
+  tiers: Array<{
+    tier: string;
+    useFor: string;
+    guide: string;
+    notes: string;
+  }>;
+  nights: Array<{
+    nights: string;
+    base: string;
+    stay: string;
+    guide: string;
+  }>;
+  safariCost: Array<{
+    item: string;
+    guide: string;
+    note: string;
+  }>;
+};
+
 export const tripBrief = {
   title: 'Africa Honeymoon Studio',
   subtitle:
@@ -1162,5 +1187,127 @@ export const costResearch = [
     useInPlan:
       'Show costs as decision ranges, not fixed quotes, and preserve NZ$800-1,200 pp contingency inside each concept.',
     source: 'TradingView, Xe, Investing.com, Wise, Revolut',
+  },
+];
+
+export const accommodationPlans: AccommodationPlan[] = [
+  {
+    route: 'Egypt + Kenya',
+    strategy:
+      'Keep Cairo/Luxor comfortable rather than ultra-luxury, then spend the accommodation premium on the 3-night Mara block where lodge quality changes the whole safari.',
+    nightlyTarget: 'City nights NZ$220-420 per room; Mara NZ$1.1k-1.7k pp/night bundled with meals, drives, fees, and transfers.',
+    bestSplurge: 'One fly-in or conservancy lodge upgrade in the Mara, not a luxury room every night in Egypt.',
+    avoid: 'A cheap Mara lodge far from wildlife or a separate low-cost hotel plus ad hoc game drives.',
+    tiers: [
+      {
+        tier: 'Value-smart',
+        useFor: 'Cairo, Luxor, Nairobi buffer',
+        guide: 'NZ$180-280 per room/night',
+        notes: 'Use this for clean logistics, private transfers, and location. Kindred can replace some city nights if availability is strong.',
+      },
+      {
+        tier: 'Honeymoon comfort',
+        useFor: 'Cairo Nile view, Luxor heritage stay, Nairobi calm buffer',
+        guide: 'NZ$280-520 per room/night',
+        notes: 'Best default tier for this route: enough comfort without stealing money from the Mara.',
+      },
+      {
+        tier: 'Safari lodge',
+        useFor: 'Masai Mara reserve or conservancy',
+        guide: 'NZ$3.4k-5.1k pp for 3 nights',
+        notes: 'Usually includes full board, shared drives, park/conservancy fees, and internal transfers or fly-in options.',
+      },
+    ],
+    nights: [
+      { nights: '1-3', base: 'Cairo', stay: 'Central hotel or Kindred if strong', guide: 'NZ$540-1,260 room total' },
+      { nights: '4-6', base: 'Luxor', stay: 'Heritage or Nile-side comfort hotel', guide: 'NZ$660-1,560 room total' },
+      { nights: '7', base: 'Nairobi', stay: 'Practical airport or Karen/Langata buffer', guide: 'NZ$220-420 room total' },
+      { nights: '8-10', base: 'Masai Mara', stay: 'Conservancy/reserve lodge package', guide: 'NZ$6.8k-10.2k couple total' },
+      { nights: '11-14/16', base: 'Cairo/London buffer', stay: 'Flexible city nights around flights', guide: 'NZ$700-1,500 room total' },
+    ],
+    safariCost: [
+      { item: '3-night lodge package', guide: 'NZ$3.4k-5.1k pp', note: 'Core safari spend; compare road vs fly-in before booking.' },
+      { item: 'Park/conservancy fees', guide: 'Usually bundled, verify line item', note: 'Ask whether 2026 fee changes are included.' },
+      { item: 'Private vehicle upgrade', guide: 'NZ$250-700 per day if available', note: 'Worth it only if the lodge is otherwise right.' },
+    ],
+  },
+  {
+    route: 'Namibia + Victoria Falls',
+    strategy:
+      'Use reliable mid-range stays in Windhoek/Swakopmund/Falls, then choose one standout desert lodge near Sossusvlei or Deadvlei.',
+    nightlyTarget: 'City/coast/Falls NZ$220-500 per room; desert lodge NZ$650-1,200+ per room with meals/activities sometimes extra.',
+    bestSplurge: 'Two nights at a desert lodge with early Sossusvlei access, stargazing, and guided dune logistics.',
+    avoid: 'Making every Namibia night premium; distances and transfers already carry enough cost.',
+    tiers: [
+      {
+        tier: 'Logistics base',
+        useFor: 'Windhoek arrival, Swakopmund, Victoria Falls',
+        guide: 'NZ$180-360 per room/night',
+        notes: 'Good for arrival recovery, laundry, and flexible meals. Accor/Mantis may help around Windhoek or Falls.',
+      },
+      {
+        tier: 'Landscape comfort',
+        useFor: 'Sossusvlei, NamibRand, Damaraland-style lodge nights',
+        guide: 'NZ$500-900 per room/night',
+        notes: 'The best value tier for the route if location saves early-morning driving.',
+      },
+      {
+        tier: 'Signature lodge',
+        useFor: 'One desert stay or Falls river-view finale',
+        guide: 'NZ$900-1,600+ per room/night',
+        notes: 'Use sparingly. This route becomes expensive quickly once transfers and activities are added.',
+      },
+    ],
+    nights: [
+      { nights: '1', base: 'Windhoek', stay: 'Arrival buffer hotel', guide: 'NZ$220-360 room total' },
+      { nights: '2-4', base: 'Sossusvlei/Deadvlei', stay: 'Desert lodge, ideally activity-ready', guide: 'NZ$1.8k-3.6k room total' },
+      { nights: '5-7', base: 'Swakopmund or coast', stay: 'Comfort hotel or guesthouse', guide: 'NZ$750-1,350 room total' },
+      { nights: '8-10', base: 'Windhoek/transit', stay: 'Practical hotel around flight bridge', guide: 'NZ$500-900 room total' },
+      { nights: '11-14/16', base: 'Victoria Falls', stay: 'Mantis/river/Falls access hotel', guide: 'NZ$1.2k-2.5k room total' },
+    ],
+    safariCost: [
+      { item: 'Chobe day safari', guide: 'NZ$250-590 pp', note: 'Keeps safari to one wildlife day without a lodge block.' },
+      { item: 'Desert guided activities', guide: 'NZ$150-450 pp/day', note: 'Often lodge-arranged; confirm whether included.' },
+      { item: 'Private transfers', guide: 'NZ$700-1.8k pp route-dependent', note: 'The hidden cost of avoiding self-drive fatigue.' },
+    ],
+  },
+  {
+    route: 'Egypt + Victoria Falls',
+    strategy:
+      'Treat accommodation as two romantic anchors: efficient Egypt hotels first, then a stronger Falls base because this route lacks a full safari lodge moment.',
+    nightlyTarget: 'Egypt NZ$240-520 per room; Falls NZ$350-800 per room; Chobe remains a day-trip cost rather than a lodge stay.',
+    bestSplurge: 'Falls river-view or high-service property plus helicopter/river activity, after flight bridges are proven.',
+    avoid: 'Holding non-refundable Falls hotels before confirming Cairo-Falls routing, yellow-fever documentation, and transit times.',
+    tiers: [
+      {
+        tier: 'Culture comfort',
+        useFor: 'Cairo and Luxor',
+        guide: 'NZ$240-520 per room/night',
+        notes: 'Prioritise private guiding and location over ultra-luxury rooms.',
+      },
+      {
+        tier: 'Falls honeymoon base',
+        useFor: 'Victoria Falls or Livingstone',
+        guide: 'NZ$350-800 per room/night',
+        notes: 'Choose the side only after checking flight timings, visas, and activity access.',
+      },
+      {
+        tier: 'Experience-led luxury',
+        useFor: 'Falls finale',
+        guide: 'NZ$800-1,400+ per room/night',
+        notes: 'Use only if the Cairo-Falls bridge stays sane and budget remains under the NZ$12k pp ceiling.',
+      },
+    ],
+    nights: [
+      { nights: '1-4', base: 'Cairo', stay: 'Comfort hotel or Kindred if available', guide: 'NZ$960-2,080 room total' },
+      { nights: '5-7', base: 'Luxor', stay: 'Heritage/Nile-side hotel', guide: 'NZ$720-1,560 room total' },
+      { nights: '8-9', base: 'Transit buffer', stay: 'Flexible airport/city hotel', guide: 'NZ$450-900 room total' },
+      { nights: '10-14/16', base: 'Victoria Falls/Livingstone', stay: 'Falls access or river-facing base', guide: 'NZ$1.8k-4.0k room total' },
+    ],
+    safariCost: [
+      { item: 'Chobe day safari', guide: 'NZ$250-590 pp', note: 'Best wildlife add-on without turning the trip safari-heavy.' },
+      { item: 'Falls guided walk + cruise', guide: 'NZ$180-420 pp', note: 'Good alternative if the helicopter feels too spendy.' },
+      { item: 'Helicopter flight', guide: 'NZ$290-425 pp before extras', note: 'The right splurge if weather and budget line up.' },
+    ],
   },
 ];

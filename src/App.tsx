@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import './App.css';
 import {
   concepts,
+  accommodationPlans,
   assetPlans,
   costResearch,
   cashAviosComparisons,
@@ -592,6 +593,93 @@ function CostingView() {
           </table>
         </div>
       </section>
+
+      <section className="section-split accommodation-intro">
+        <div className="section-heading">
+          <p className="eyebrow">Accommodation Planner</p>
+          <h2>Choose where the room budget should actually work hard.</h2>
+        </div>
+        <div className="decision-panel">
+          <ul className="plain-list">
+            <li>City hotels should buy location, sleep, and private-transfer simplicity; they should not consume the honeymoon budget.</li>
+            <li>Safari and desert lodge nights are the high-leverage stays because room choice affects guiding, meals, transfers, and access.</li>
+            <li>Hold cancellable stays until flight bridges are proven, especially for Victoria Falls and Namibia.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="accommodation-grid" aria-label="Route accommodation planner">
+        {accommodationPlans.map((plan) => (
+          <article className="accommodation-card" key={plan.route}>
+            <div className="accommodation-card-head">
+              <p className="eyebrow">{plan.route}</p>
+              <h3>{plan.strategy}</h3>
+            </div>
+            <dl className="accommodation-summary">
+              <div>
+                <dt>Nightly target</dt>
+                <dd>{plan.nightlyTarget}</dd>
+              </div>
+              <div>
+                <dt>Where to splurge</dt>
+                <dd>{plan.bestSplurge}</dd>
+              </div>
+              <div>
+                <dt>Avoid</dt>
+                <dd>{plan.avoid}</dd>
+              </div>
+            </dl>
+
+            <div className="stay-tier-grid">
+              {plan.tiers.map((tier) => (
+                <div className="stay-tier" key={`${plan.route}-${tier.tier}`}>
+                  <span>{tier.tier}</span>
+                  <strong>{tier.guide}</strong>
+                  <p>{tier.useFor}</p>
+                  <small>{tier.notes}</small>
+                </div>
+              ))}
+            </div>
+
+            <div className="table-scroll">
+              <table className="planning-table accommodation-table">
+                <thead>
+                  <tr>
+                    <th>Nights</th>
+                    <th>Base</th>
+                    <th>Stay type</th>
+                    <th>Cost guide</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {plan.nights.map((night) => (
+                    <tr key={`${plan.route}-${night.nights}-${night.base}`}>
+                      <td>{night.nights}</td>
+                      <td>{night.base}</td>
+                      <td>{night.stay}</td>
+                      <td>{night.guide}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="safari-cost-box">
+              <strong>Safari / activity cost breakdown</strong>
+              <ul>
+                {plan.safariCost.map((item) => (
+                  <li key={`${plan.route}-${item.item}`}>
+                    <span>{item.item}</span>
+                    <em>{item.guide}</em>
+                    <p>{item.note}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </section>
+
       <section className="section-split">
         <div className="section-heading">
           <p className="eyebrow">Assets</p>
