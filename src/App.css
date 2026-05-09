@@ -293,15 +293,98 @@ h1 {
 
 .concept-strip,
 .concept-strip-wrap,
+.feature-overview,
 .content-grid,
 .decision-summary {
   width: min(1240px, calc(100% - 48px));
   margin: 0 auto;
 }
 
+.feature-overview {
+  position: relative;
+  z-index: 3;
+  margin-top: -84px;
+  margin-bottom: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, var(--soft-shadow);
+  backdrop-filter: blur(22px) saturate(1.18);
+}
+
+.feature-overview-head {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.36fr) minmax(0, 0.64fr);
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.feature-overview-head h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.62rem;
+  line-height: 1.08;
+}
+
+.feature-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.feature-overview-card {
+  min-height: 238px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.feature-overview-card > span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 840;
+  text-transform: uppercase;
+}
+
+.feature-overview-card h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.18rem;
+  line-height: 1.14;
+}
+
+.feature-overview-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.48;
+}
+
+.feature-overview-card button {
+  width: 100%;
+  min-height: 40px;
+  margin-top: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 780;
+}
+
 .decision-path {
   width: min(1240px, calc(100% - 48px));
-  margin: -64px auto 28px;
+  margin: 0 auto 28px;
   position: relative;
   z-index: 2;
   display: grid;
@@ -1733,6 +1816,8 @@ code {
 @media (max-width: 1050px) {
   .concept-strip,
   .concept-strip-heading,
+  .feature-overview-head,
+  .feature-overview-grid,
   .decision-path,
   .feature-panel,
   .two-column,
@@ -1788,6 +1873,7 @@ code {
   .hero-content,
   .concept-strip,
   .concept-strip-wrap,
+  .feature-overview,
   .decision-path,
   .content-grid,
   .decision-summary {
@@ -1833,6 +1919,8 @@ code {
 
   .concept-strip,
   .decision-summary,
+  .feature-overview-head,
+  .feature-overview-grid,
   .path-step-grid,
   .tour-grid,
   .cost-research-grid,
@@ -1861,6 +1949,7 @@ code {
   }
 
   .feature-copy,
+  .feature-overview,
   .decision-path-intro,
   .path-step,
   .concept-strip-wrap,

@@ -85,8 +85,8 @@ function Hero({
             ['concepts', 'Start'],
             ['generator', 'Fit'],
             ['compare', 'Choose'],
-            ['costing', 'Budget'],
-            ['tours', 'Book'],
+            ['costing', 'Flights + stays'],
+            ['tours', 'TripAdvisor'],
             ['logistics', 'Prep'],
           ].map(([id, label]) => (
             <button
@@ -115,6 +115,12 @@ function Hero({
           <button type="button" className="ghost" onClick={() => setActiveView('compare')}>
             Compare routes
           </button>
+          <button type="button" className="ghost" onClick={() => setActiveView('costing')}>
+            Flights + stays
+          </button>
+          <button type="button" className="ghost" onClick={() => setActiveView('tours')}>
+            TripAdvisor reviews
+          </button>
         </div>
         <div className="hero-stats" aria-label="Trip constraints">
           <span>{tripBrief.budget}</span>
@@ -131,6 +137,59 @@ function Hero({
         <small>{activeConcept.mood}</small>
       </aside>
     </header>
+  );
+}
+
+function FeatureOverview({ setActiveView }: { setActiveView: (view: ViewId) => void }) {
+  const features: Array<{
+    label: string;
+    title: string;
+    body: string;
+    action: string;
+    view: ViewId;
+  }> = [
+    {
+      label: 'Feature 1',
+      title: 'Flights + Avios planner',
+      body: 'Route-level flight risk, open-jaw logic, BA/Qatar Avios use cases, cash fallbacks, and reward-seat checks.',
+      action: 'Open flights',
+      view: 'costing',
+    },
+    {
+      label: 'Feature 2',
+      title: 'Accommodation planner',
+      body: 'Night-by-night stay strategy for each shortlisted route, including where to splurge, what to avoid, and safari/activity cost blocks.',
+      action: 'Open stays',
+      view: 'costing',
+    },
+    {
+      label: 'Feature 3',
+      title: 'TripAdvisor tour anchors',
+      body: 'Three reviewed tour anchors per route with ratings/review signals and direct check links, surfaced across every itinerary.',
+      action: 'Open tours',
+      view: 'tours',
+    },
+  ];
+
+  return (
+    <section className="feature-overview" aria-label="Major planning features">
+      <div className="feature-overview-head">
+        <p className="eyebrow">New planning layers</p>
+        <h2>The three big features are now one tap away.</h2>
+      </div>
+      <div className="feature-overview-grid">
+        {features.map((feature) => (
+          <article className="feature-overview-card" key={feature.title}>
+            <span>{feature.label}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+            <button type="button" onClick={() => setActiveView(feature.view)}>
+              {feature.action}
+            </button>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -1295,6 +1354,7 @@ function App() {
   return (
     <div className="app-shell">
       <Hero activeConcept={activeConcept} activeView={activeView} setActiveView={setActiveView} />
+      <FeatureOverview setActiveView={setActiveView} />
       {activeView === 'concepts' && <DecisionPath activeConcept={activeConcept} setActiveView={setActiveView} />}
       {activeView === 'concepts' && <ConceptPicker activeId={activeId} setActiveId={setActiveId} />}
       {activeView === 'concepts' && <DecisionSummary />}
